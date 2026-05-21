@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="MessDetector">
-    <phpmd_settings>
-      <phpmd_by_interpreter asDefaultInterpreter="true" interpreter_id="bfba8fd2-ed90-46fc-9a8f-4223d4863ac6" timeout="30000" />
-    </phpmd_settings>
-  </component>
   <component name="MessDetectorOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
@@ -14,11 +9,6 @@
   <component name="PHPCodeSnifferOptionsConfiguration">
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
-  </component>
-  <component name="PhpCodeSniffer">
-    <phpcs_settings>
-      <phpcs_by_interpreter asDefaultInterpreter="true" interpreter_id="bfba8fd2-ed90-46fc-9a8f-4223d4863ac6" timeout="30000" />
-    </phpcs_settings>
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
@@ -93,9 +83,9 @@
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="bfba8fd2-ed90-46fc-9a8f-4223d4863ac6" name="php" home="docker-compose://DATA" auto="false" debugger_id="php.debugger.XDebug">
+      <interpreter id="088fd57e-7e4e-4ff7-971e-749bb5df46da" name="php 8.5.6" home="docker-compose://DATA" auto="false" debugger_id="php.debugger.XDebug">
         <remote_data INTERPRETER_PATH="php" HELPERS_PATH="/opt/.phpstorm_helpers" VALID="true" RUN_AS_ROOT_VIA_SUDO="false" DOCKER_ACCOUNT_NAME="Docker" DOCKER_COMPOSE_SERVICE_NAME="php" DOCKER_REMOTE_PROJECT_PATH="/opt/project">
-          <type_data command="EXEC" />
+          <type_data command="RUN" />
           <dockerComposeConfigurationPaths>
             <item value="$PROJECT_DIR$/compose.yaml" />
           </dockerComposeConfigurationPaths>
@@ -106,9 +96,9 @@
   </component>
   <component name="PhpInterpretersPhpInfoCache">
     <phpInfoCache>
-      <interpreter name="php">
-        <phpinfo binary_type="PHP" php_cgi="/usr/local/bin/php-cgi" php_cli="/usr/local/bin/php" path_separator=":" version="8.3.31">
-          <additional_php_ini>/usr/local/etc/php/conf.d/docker-php-ext-apcu.ini, /usr/local/etc/php/conf.d/docker-php-ext-intl.ini, /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini, /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini, /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini, /usr/local/etc/php/conf.d/docker-php-ext-zip.ini, /usr/local/etc/php/app.conf.d/10-app.ini, /usr/local/etc/php/app.conf.d/20-app.dev.ini</additional_php_ini>
+      <interpreter name="php 8.5.6">
+        <phpinfo binary_type="PHP" php_cgi="/usr/local/bin/php-cgi" php_cli="/usr/local/bin/php" path_separator=":" version="8.5.6">
+          <additional_php_ini>/usr/local/etc/php/conf.d/docker-php-ext-apcu.ini, /usr/local/etc/php/conf.d/docker-php-ext-intl.ini, /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini, /usr/local/etc/php/conf.d/docker-php-ext-sodium.ini, /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini, /usr/local/etc/php/conf.d/docker-php-ext-zip.ini, /usr/local/etc/php/app.conf.d/10-app.ini, /usr/local/etc/php/app.conf.d/20-app.dev.ini</additional_php_ini>
           <configuration_file>/usr/local/etc/php/php.ini</configuration_file>
           <configuration_options>
             <configuration_option name="include_path" value=".:/usr/local/lib/php" />
@@ -137,11 +127,13 @@
             <extension name="iconv" />
             <extension name="intl" />
             <extension name="json" />
+            <extension name="lexbor" />
             <extension name="libxml" />
             <extension name="mbstring" />
             <extension name="mysqlnd" />
             <extension name="openssl" />
             <extension name="pcre" />
+            <extension name="pdo_pgsql" />
             <extension name="pdo_sqlite" />
             <extension name="posix" />
             <extension name="random" />
@@ -151,6 +143,7 @@
             <extension name="sqlite3" />
             <extension name="standard" />
             <extension name="tokenizer" />
+            <extension name="uri" />
             <extension name="xdebug" />
             <extension name="xml" />
             <extension name="xmlreader" />
@@ -162,7 +155,7 @@
       </interpreter>
     </phpInfoCache>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="8.3" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.5" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>

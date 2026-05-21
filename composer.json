@@ -6,7 +6,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.3.30",
+        "php": ">=8.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.18.2",
@@ -34,7 +34,10 @@
             "symfony/runtime": true
         },
         "bump-after-update": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "plateforme": {
+            "php": "8.5.*"
+        }
     },
     "autoload": {
         "psr-4": {
