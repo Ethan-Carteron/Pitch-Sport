@@ -35,7 +35,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Club $club = null;
+    private ?Club $clubId = null;
 
     public function getId(): ?int
     {
@@ -118,14 +118,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function getClub(): ?Club
+    public function getClubId(): ?Club
     {
-        return $this->club;
+        return $this->clubId;
     }
 
-    public function setClub(?Club $club): self
+    public function setClubId(?Club $clubId): self
     {
-        $this->club = $club;
+        $this->clubId = $clubId;
 
         return $this;
     }
