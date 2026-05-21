@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Impl\BaseEntity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,7 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    private array $roles = [];
+    private array $role = [];
 
     /**
      * @var string The hashed password
@@ -32,8 +33,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column]
-    private ?int $club = null;
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Club $club = null;
 
     public function getId(): ?int
     {
@@ -65,9 +67,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRole(): array
     {
-        $roles = $this->roles;
+        $roles = $this->role;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
@@ -75,11 +77,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param list<string> $roles
+     * @param list<string> $role
      */
-    public function setRoles(array $roles): static
+    public function setRole(array $role): static
     {
-        $this->roles = $roles;
+        $this->role = $role;
 
         return $this;
     }
@@ -116,12 +118,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function getClub(): ?int
+    public function getClub(): ?Club
     {
         return $this->club;
     }
 
-    public function setClub(int $club): static
+    public function setClub(?Club $club): self
     {
         $this->club = $club;
 

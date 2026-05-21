@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Impl\BaseEntity;
 use App\Repository\ClubRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClubRepository::class)]
-class Club
+class Club extends BaseEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
