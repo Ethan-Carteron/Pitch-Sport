@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
-use App\Entity\Impl\BaseEntity;
+use AllowDynamicProperties;
 use App\Repository\UserRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
-class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte avec cet email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,26 +21,19 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $username = null;
+    private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    private array $role = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
-
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Club $clubId = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
@@ -50,14 +43,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getEmail(): ?string
     {
-        return $this->username;
+        return $this->email;
     }
 
-    public function setUsername(string $username): static
+    public function setEmail(string $email): static
     {
-        $this->username = $username;
+        $this->email = $email;
 
         return $this;
     }
@@ -69,15 +62,17 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->username;
+        return (string) $this->email;
     }
 
     /**
      * @see UserInterface
+     *
+     * @return list<string>
      */
-    public function getRole(): array
+    public function getRoles(): array
     {
-        $roles = $this->role;
+        $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
@@ -85,11 +80,11 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     /**
-     * @param list<string> $role
+     * @param list<string> $roles
      */
-    public function setRole(array $role): static
+    public function setRoles(array $roles): static
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
@@ -110,44 +105,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     /**
-     * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
+     * @see UserInterface
      */
-    public function __serialize(): array
-    {
-        $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
-
-        return $data;
-    }
-
-    #[\Deprecated]
     public function eraseCredentials(): void
     {
-        // @deprecated, to be removed when upgrading to Symfony 8
-    }
-
-    public function getClubId(): ?Club
-    {
-        return $this->clubId;
-    }
-
-    public function setClubId(?Club $clubId): self
-    {
-        $this->clubId = $clubId;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function isVerified(): bool
