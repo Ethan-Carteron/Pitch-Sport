@@ -13,6 +13,8 @@
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.6.6",
         "runtime/frankenphp-symfony": "^1.0",
+        "symfony/asset": "7.4.*",
+        "symfony/asset-mapper": "7.4.*",
         "symfony/console": "7.4.*",
         "symfony/dotenv": "7.4.*",
         "symfony/flex": "^2.10",
@@ -25,7 +27,9 @@
         "symfony/uid": "7.4.*",
         "symfony/validator": "7.4.*",
         "symfony/yaml": "7.4.*",
-        "symfonycasts/verify-email-bundle": "^1.18"
+        "symfonycasts/verify-email-bundle": "^1.18",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "allow-plugins": {
@@ -62,7 +66,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
