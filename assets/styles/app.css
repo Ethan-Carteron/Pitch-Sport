@@ -72,6 +72,9 @@
     gap: var(--s4);
 }
 
+.login-form .input-group:nth-child(1) { margin-bottom: var(--s4); }
+.login-form .input-group:nth-child(2) { margin-bottom: var(--s5); }
+
 .btn-full {
     width: 100%;
     justify-content: center;
@@ -107,6 +110,10 @@
     font-size: 12px;
     font-weight: 600;
     color: var(--text-sub);
+}
+
+.overview-metrics {
+    margin-bottom: var(--s6);
 }
 
 

@@ -18,25 +18,25 @@
 
         {# Logique métier Symfony : Gestion des erreurs #}
         {% if error %}
-            <div class="alert alert-danger" style="margin-bottom: 1.5rem; padding: 1rem; border-radius: 12px; font-size: 0.9rem;">
+            <div class="alert alert-danger">
                 {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
         {% endif %}
 
         {# Logique métier Symfony : Redirection si déjà connecté #}
         {% if app.user %}
-            <div class="alert alert-info" style="margin-bottom: 1.5rem; border-radius: 12px;">
+            <div class="alert alert-info">
                 Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
         {% endif %}
 
         <form method="post" class="login-form">
-            <div class="input-group" style="margin-bottom: 1.5rem;">
+            <div class="input-group">
                 <label for="inputEmail" class="input-label">Email</label>
                 <input class="input" type="email" value="{{ last_username }}" name="_username" id="inputEmail" placeholder="vous@votreclub.fr" autocomplete="email" required autofocus>
             </div>
 
-            <div class="input-group" style="margin-bottom: 2rem;">
+            <div class="input-group">
                 <label for="inputPassword" class="input-label">Mot de passe</label>
                 <div class="input-wrap">
                     <input class="input" type="password" name="_password" id="inputPassword" placeholder="••••••••" autocomplete="current-password" required>

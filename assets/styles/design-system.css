@@ -557,6 +557,27 @@ input, textarea, select { font-family: inherit; }
     color: var(--text-sub);
 }
 
+/* ALERTS */
+.alert {
+    padding: var(--s4);
+    border-radius: var(--r-md);
+    margin-bottom: var(--s5);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.alert-danger {
+    background: rgba(198, 25, 39, 0.1);
+    border: 1px solid rgba(198, 25, 39, 0.2);
+    color: #e8384a;
+}
+
+.alert-info {
+    background: var(--blue-dim);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: var(--blue);
+}
+
 /* SCROLL */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
