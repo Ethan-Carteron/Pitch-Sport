@@ -1,20 +1,67 @@
-{% extends '_layouts/standard.html.twig' %}
+{% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Hello Index/IndexController!{% endblock %}
+{% block title %}Accueil !{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block content %}
+    <div class="page active" id="page-overview">
+        <div class="page-header">
+            <h1 class="page-title">Bonjour, Hugo.</h1>
+            <p class="page-subtitle">Voici l'état de votre effectif ce matin.</p>
+        </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <!-- Alerte rouge -->
+        <div class="alert-banner rouge" id="alert-rouge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <strong>1 athlète en zone de surcharge.</strong>&nbsp;Vérifiez la charge avant l'entraînement.
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/app/src/Controller/Index/IndexController.php</code></li>
-        <li>Your template at <code>/app/templates/index/index/index.html.twig</code></li>
-    </ul>
-</div>
+        <!-- KPIs -->
+        <div class="grid-4" style="margin-bottom: var(--s6)">
+            <div class="metric-card">
+                <div class="metric-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Effectif actif
+                </div>
+                <div class="metric-value neutral">11</div>
+                <div class="metric-sub">athlètes suivis</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    Zone rouge
+                </div>
+                <div class="metric-value rouge">1</div>
+                <div class="metric-sub">surcharge détectée</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                    Zone orange
+                </div>
+                <div class="metric-value orange">2</div>
+                <div class="metric-sub">à surveiller</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    Zone verte
+                </div>
+                <div class="metric-value vert">8</div>
+                <div class="metric-sub">charge optimale</div>
+            </div>
+        </div>
+
+        <!-- Filtre + liste -->
+        <div class="section-header">
+            <div class="section-title">Effectif complet</div>
+            <div class="tabs">
+                <div class="tab active">Tous</div>
+                <div class="tab">Rouge</div>
+                <div class="tab">Orange</div>
+                <div class="tab">Vert</div>
+            </div>
+        </div>
+
+        <div class="athletes-list" id="athletes-list"></div>
+    </div>
 {% endblock %}
