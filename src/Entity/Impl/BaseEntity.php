@@ -12,22 +12,22 @@ abstract class BaseEntity
     protected \DateTime $createdDate;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    protected User $createdBy;
+    #[ORM\JoinColumn(nullable: true)]
+    protected ?User $createdBy = null;
 
     #[ORM\Column(name: 'updated_date', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected null|\DateTime $updatedDate;
+    protected null|\DateTime $updatedDate = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    protected null|User $updatedBy;
+    #[ORM\JoinColumn(nullable: true)]
+    protected ?User $updatedBy = null;
 
     #[ORM\Column(name: 'deleted_date', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected null|\DateTime $deletedDate;
+    protected null|\DateTime $deletedDate = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    protected null|User $deletedBy;
+    #[ORM\JoinColumn(nullable: true)]
+    protected ?User $deletedBy = null;
 
     #[ORM\Column(name: 'is_deleted', type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     protected bool $isDeleted = false;

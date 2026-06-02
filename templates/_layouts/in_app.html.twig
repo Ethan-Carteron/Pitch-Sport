@@ -54,6 +54,16 @@
                 </div>
             </header>
 
+            <div style="padding: 0 var(--s6); margin-top: var(--s4);">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
             {% block content %}{% endblock %}
         </main>
     </div>

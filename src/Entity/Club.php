@@ -22,12 +22,19 @@ class Club extends BaseEntity
     /**
      * @var Collection<int, Player>
      */
-    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'clubId')]
+    #[ORM\OneToMany(targetEntity: Player::class, mappedBy: 'club')]
     private Collection $players;
+
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'club', orphanRemoval: true)]
+    private Collection $users;
 
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,7 +66,7 @@ class Club extends BaseEntity
     {
         if (!$this->players->contains($player)) {
             $this->players->add($player);
-            $player->setClubId($this);
+            $player->setClub($this);
         }
 
         return $this;
@@ -69,8 +76,38 @@ class Club extends BaseEntity
     {
         if ($this->players->removeElement($player)) {
             // set the owning side to null (unless already changed)
-            if ($player->getClubId() === $this) {
-                $player->setClubId(null);
+            if ($player->getClub() === $this) {
+                $player->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getClub() === $this) {
+                $user->setClub(null);
             }
         }
 

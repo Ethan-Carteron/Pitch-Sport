@@ -17,25 +17,22 @@ class Player extends BaseEntity
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firsteName = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $lastName = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'players')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Club $clubId = null;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Club $club = null;
 
     /**
      * @var Collection<int, WellnessQuestions>
      */
-    #[ORM\OneToMany(targetEntity: WellnessQuestions::class, mappedBy: 'playerId', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: WellnessQuestions::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $wellnessQuestions;
 
     /**
      * @var Collection<int, Workload>
      */
-    #[ORM\OneToMany(targetEntity: Workload::class, mappedBy: 'playerId', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Workload::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $workloads;
 
     public function __construct()
@@ -49,38 +46,26 @@ class Player extends BaseEntity
         return $this->id;
     }
 
-    public function getFirsteName(): ?string
+    public function getName(): ?string
     {
-        return $this->firsteName;
+        return $this->name;
     }
 
-    public function setFirsteName(string $firsteName): static
+    public function setName(string $name): static
     {
-        $this->firsteName = $firsteName;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getClub(): ?Club
     {
-        return $this->lastName;
+        return $this->club;
     }
 
-    public function setLastName(string $lastName): static
+    public function setClub(?Club $club): static
     {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getClubId(): ?Club
-    {
-        return $this->clubId;
-    }
-
-    public function setClubId(?Club $clubId): static
-    {
-        $this->clubId = $clubId;
+        $this->club = $club;
 
         return $this;
     }
@@ -97,7 +82,7 @@ class Player extends BaseEntity
     {
         if (!$this->wellnessQuestions->contains($wellnessQuestion)) {
             $this->wellnessQuestions->add($wellnessQuestion);
-            $wellnessQuestion->setPlayerId($this);
+            $wellnessQuestion->setPlayer($this);
         }
 
         return $this;
@@ -107,8 +92,8 @@ class Player extends BaseEntity
     {
         if ($this->wellnessQuestions->removeElement($wellnessQuestion)) {
             // set the owning side to null (unless already changed)
-            if ($wellnessQuestion->getPlayerId() === $this) {
-                $wellnessQuestion->setPlayerId(null);
+            if ($wellnessQuestion->getPlayer() === $this) {
+                $wellnessQuestion->setPlayer(null);
             }
         }
 
@@ -127,7 +112,7 @@ class Player extends BaseEntity
     {
         if (!$this->workloads->contains($workload)) {
             $this->workloads->add($workload);
-            $workload->setPlayerId($this);
+            $workload->setPlayer($this);
         }
 
         return $this;
@@ -137,8 +122,8 @@ class Player extends BaseEntity
     {
         if ($this->workloads->removeElement($workload)) {
             // set the owning side to null (unless already changed)
-            if ($workload->getPlayerId() === $this) {
-                $workload->setPlayerId(null);
+            if ($workload->getPlayer() === $this) {
+                $workload->setPlayer(null);
             }
         }
 

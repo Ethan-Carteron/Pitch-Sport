@@ -24,8 +24,8 @@ class WellnessQuestions extends BaseEntity
     private ?int $stress = null;
 
     #[ORM\ManyToOne(inversedBy: 'wellnessQuestions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Player $playerId = null;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Player $player = null;
 
     public function getId(): ?int
     {
@@ -68,14 +68,14 @@ class WellnessQuestions extends BaseEntity
         return $this;
     }
 
-    public function getPlayerId(): ?Player
+    public function getPlayer(): ?Player
     {
-        return $this->playerId;
+        return $this->player;
     }
 
-    public function setPlayerId(?Player $playerId): static
+    public function setPlayer(?Player $player): static
     {
-        $this->playerId = $playerId;
+        $this->player = $player;
 
         return $this;
     }

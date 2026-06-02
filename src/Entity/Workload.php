@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Entity\Impl\BaseEntity;
 use App\Repository\WorkloadRepository;
+use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkloadRepository::class)]
@@ -27,8 +29,11 @@ class Workload extends BaseEntity
     private ?int $acceleration = null;
 
     #[ORM\ManyToOne(inversedBy: 'workloads')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Player $playerId = null;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Player $player = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    protected DateTime $createdDate;
 
     public function getId(): ?int
     {
@@ -83,14 +88,26 @@ class Workload extends BaseEntity
         return $this;
     }
 
-    public function getPlayerId(): ?Player
+    public function getPlayer(): ?Player
     {
-        return $this->playerId;
+        return $this->player;
     }
 
-    public function setPlayerId(?Player $playerId): static
+    public function setPlayer(?Player $player): static
     {
-        $this->playerId = $playerId;
+        $this->player = $player;
+
+        return $this;
+    }
+
+    public function getCreatedDate(): DateTime
+    {
+        return $this->createdDate;
+    }
+
+    public function setCreatedDate(DateTime $createdDate): static
+    {
+        $this->createdDate = $createdDate;
 
         return $this;
     }

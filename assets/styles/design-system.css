@@ -270,7 +270,6 @@ input, textarea, select { font-family: inherit; }
 .page {
     padding: var(--s6);
     flex: 1;
-    display: none;
 }
 
 .page.active {
