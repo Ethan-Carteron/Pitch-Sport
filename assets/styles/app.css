@@ -514,6 +514,39 @@
     color: var(--text-sub);
 }
 
+.import-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--s5);
+}
+
+.import-file-remove {
+    margin-left: auto;
+}
+
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--s2);
+    background: transparent;
+    border: none;
+    border-radius: var(--r-sm);
+    color: var(--text-sub);
+    cursor: pointer;
+    transition: color var(--t-fast), background var(--t-fast);
+}
+
+.btn-ghost:hover {
+    color: var(--red);
+    background: var(--red-dim);
+}
+
+.text-sub {
+    color: var(--text-sub);
+    font-size: 14px;
+}
+
 
 /* ─── WELLNESS ─── */
 .wellness-container {
