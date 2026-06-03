@@ -25,12 +25,12 @@ final class ImportController extends AbstractController
      * @throws Exception
      * @throws ORMException
      */
-    #[Route('/import', name: 'app_import', methods: ['GET','POST'])]
+    #[Route('/import', name: 'app_import', methods: ['GET', 'POST'])]
     public function import(
-        Request $request,
-        ImportManagerService $importManager,
+        Request                $request,
+        ImportManagerService   $importManager,
         EntityManagerInterface $entityManagerInterface,
-        #[CurrentUser] User $user
+        #[CurrentUser] User    $user
 
     ): Response
     {
@@ -50,27 +50,26 @@ final class ImportController extends AbstractController
         $reader = Reader::from($csvFile->getPathname());
         $reader->setHeaderOffset(0);
 
-        $records = $reader->getRecords();
-        $countSuccess = 0;
-        $countSkipped = 0;
+        $stats = ['success' => 0, 'skipped' => 0];
 
-        list($countSkipped, $countSuccess) = $this->csvReading(
+        $records = $request->request->get('csv');
+
+        $stats = $this->csvReading(
             $records,
-            $countSkipped,
             $importManager,
             $club,
             $user,
             $entityManagerInterface,
-            $countSuccess
+            $stats
         );
         $entityManagerInterface->flush();
 
-        $this->successRateManager($countSuccess, $countSkipped);
+        $this->successRateManager($stats['success'], $stats['skipped']);
 
         return $this->redirectToRoute('app_import');
     }
 
-    public function formatData(mixed $record): array
+    public function formatData(array $record): array
     {
         $data = [];
         foreach ($record as $key => $value) {
@@ -80,42 +79,33 @@ final class ImportController extends AbstractController
     }
 
     public function workloadInitialization(
-        ?Player $player,
-        array|string $maxSpeedStr,
-        array|string $totalDistanceStr,
+        Player $player,
         User $user,
-        DateTime $date,
+        array $workloadData,
         EntityManagerInterface $entityManagerInterface
     ): void
     {
         $workload = new Workload();
         $workload->setPlayer($player);
-        $workload->setMaxSpeed((float)$maxSpeedStr);
-        $workload->setTotalDistance((float)$totalDistanceStr);
+        $workload->setMaxSpeed($workloadData['maxSpeed']);
+        $workload->setTotalDistance($workloadData['totalDistance']);
         $workload->setCreatedBy($user);
-        $workload->setCreatedDate($date);
+        $workload->setCreatedDate($workloadData['date']);
 
         $entityManagerInterface->persist($workload);
     }
 
     public function createPlayerIfNotExist(
         ImportManagerService $importManager,
-        mixed $name,
-        ?Club $club,
+        string $name,
+        Club $club,
         User $user
-    ): ?Player
+    ): Player
     {
-        $player = $importManager->findPlayerByNameInClub(
-            $name,
-            $club
-        );
+        $player = $importManager->findPlayerByNameInClub($name, $club);
 
         if (!$player) {
-            $player = $importManager->createPlayer(
-                $name,
-                $club,
-                $user
-            );
+            $player = $importManager->createPlayer($name, $club, $user);
         }
         return $player;
     }
@@ -135,12 +125,11 @@ final class ImportController extends AbstractController
 
     public function csvReading(
         Iterator $records,
-        int $countSkipped,
         ImportManagerService $importManager,
-        ?Club $club,
+        Club $club,
         User $user,
-        EntityManagerInterface $entityManagerInterface,
-        int $countSuccess
+        EntityManagerInterface $em,
+        array $stats
     ): array
     {
         foreach ($records as $record) {
@@ -148,30 +137,33 @@ final class ImportController extends AbstractController
 
             $dateValue = $data['date'] ?? null;
             if (!$dateValue) {
-                $countSkipped++;
+                $stats['skipped']++;
                 continue;
             }
 
             $date = DateTime::createFromFormat('d/m/Y', $dateValue) ?: DateTime::createFromFormat('Y-m-d', $dateValue);
             if (!$date) {
-                $countSkipped++;
+                $stats['skipped']++;
                 continue;
             }
 
             $name = $data['name'] ?? '';
             if (empty($name)) {
-                $countSkipped++;
+                $stats['skipped']++;
                 continue;
             }
 
             $player = $this->createPlayerIfNotExist($importManager, $name, $club, $user);
 
-            $maxSpeedStr = str_replace(',', '.', $data['maximum velocity (km/h)'] ?? $data['max_speed'] ?? '0');
-            $totalDistanceStr = str_replace(',', '.', $data['total distance (m)'] ?? $data['total_distance'] ?? '0');
+            $workloadData = [
+                'maxSpeed' => (float) str_replace(',', '.', $data['maximum velocity (km/h)'] ?? $data['max_speed'] ?? '0'),
+                'totalDistance' => (float) str_replace(',', '.', $data['total distance (m)'] ?? $data['total_distance'] ?? '0'),
+                'date' => $date
+            ];
 
-            $this->workloadInitialization($player, $maxSpeedStr, $totalDistanceStr, $user, $date, $entityManagerInterface);
-            $countSuccess++;
+            $this->workloadInitialization($player, $user, $workloadData, $em);
+            $stats['success']++;
         }
-        return array($countSkipped, $countSuccess);
+        return $stats;
     }
 }
