@@ -117,6 +117,8 @@ final class ImportController extends AbstractController
         array                  $stats
     ): array
     {
+        $playerCache = [];
+
         foreach ($records as $record) {
             $data = $this->formatData($record);
 
@@ -138,10 +140,17 @@ final class ImportController extends AbstractController
                 continue;
             }
 
-            $player = $playerService->findPlayerByNameInClub($name, $club);
-            if (!$player) {
-                $player = $playerService->createPlayer($name, $club, $user);
+            $cacheKey = mb_strtolower($name);
+
+            if (!isset($playerCache[$cacheKey])) {
+                $player = $playerService->findPlayerByNameInClub($name, $club);
+                if (!$player) {
+                    $player = $playerService->createPlayer($name, $club, $user);
+                }
+                $playerCache[$cacheKey] = $player;
             }
+
+            $player = $playerCache[$cacheKey];
 
             $workloadData = [
                 'maxSpeed' => (float)str_replace(',', '.', $data['maximum velocity (km/h)'] ?? $data['max_speed'] ?? '0'),
