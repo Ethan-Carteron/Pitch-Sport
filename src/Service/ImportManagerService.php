@@ -6,12 +6,11 @@ use App\Entity\Club;
 use App\Entity\Player;
 use App\Entity\User;
 use App\Repository\PlayerRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ImportManagerService
 {
-    /** @var array<string, Player> */
-    private array $playerCache = [];
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -30,11 +29,11 @@ class ImportManagerService
 
     public function createPlayer(string $name, Club $club, User $creator): Player
     {
-        $player = (new Player())
+        $player = new Player()
             ->setName($name)
             ->setClub($club)
             ->setCreatedBy($creator)
-            ->setCreatedDate(new \DateTime());
+            ->setCreatedDate(new DateTime());
 
         $this->entityManager->persist($player);
 
