@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Club;
 use App\Entity\Player;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -31,5 +32,15 @@ class PlayerRepository extends ServiceEntityRepository
             ->groupBy('player.id')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findPlayerByNameInClub(string $name, Club $club): ?Player
+    {
+        return $this->createQueryBuilder('player')
+            ->andWhere('player.club = :club AND player.name = :name')
+            ->setParameter('club', $club)
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

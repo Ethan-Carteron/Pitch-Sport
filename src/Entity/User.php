@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: true)] // à passer en false une fois les tests finalisés
+    #[ORM\JoinColumn(nullable: false)]
     private ?Club $club = null;
 
     public function getId(): ?int

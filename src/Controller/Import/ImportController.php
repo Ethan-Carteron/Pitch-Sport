@@ -7,6 +7,7 @@ use App\Entity\Player;
 use App\Entity\User;
 use App\Entity\Workload;
 use App\Service\ImportManagerService;
+use App\Service\PlayerService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -28,7 +29,7 @@ final class ImportController extends AbstractController
     #[Route('/import', name: 'app_import', methods: ['GET', 'POST'])]
     public function import(
         Request                $request,
-        ImportManagerService   $importManager,
+        PlayerService          $playerService,
         EntityManagerInterface $entityManagerInterface,
         #[CurrentUser] User    $user
 
@@ -52,18 +53,17 @@ final class ImportController extends AbstractController
 
         $stats = ['success' => 0, 'skipped' => 0];
 
-        $records = $request->request->get('csv');
+        $records = $reader->getRecords();
 
         $stats = $this->csvReading(
             $records,
-            $importManager,
+            $playerService,
             $club,
             $user,
             $entityManagerInterface,
             $stats
         );
         $entityManagerInterface->flush();
-
         $this->successRateManager($stats['success'], $stats['skipped']);
 
         return $this->redirectToRoute('app_import');
@@ -79,9 +79,9 @@ final class ImportController extends AbstractController
     }
 
     public function workloadInitialization(
-        Player $player,
-        User $user,
-        array $workloadData,
+        Player                 $player,
+        User                   $user,
+        array                  $workloadData,
         EntityManagerInterface $entityManagerInterface
     ): void
     {
@@ -93,21 +93,6 @@ final class ImportController extends AbstractController
         $workload->setCreatedDate($workloadData['date']);
 
         $entityManagerInterface->persist($workload);
-    }
-
-    public function createPlayerIfNotExist(
-        ImportManagerService $importManager,
-        string $name,
-        Club $club,
-        User $user
-    ): Player
-    {
-        $player = $importManager->findPlayerByNameInClub($name, $club);
-
-        if (!$player) {
-            $player = $importManager->createPlayer($name, $club, $user);
-        }
-        return $player;
     }
 
     public function successRateManager(int $countSuccess, int $countSkipped): void
@@ -124,12 +109,12 @@ final class ImportController extends AbstractController
     }
 
     public function csvReading(
-        Iterator $records,
-        ImportManagerService $importManager,
-        Club $club,
-        User $user,
+        Iterator               $records,
+        PlayerService          $playerService,
+        Club                   $club,
+        User                   $user,
         EntityManagerInterface $em,
-        array $stats
+        array                  $stats
     ): array
     {
         foreach ($records as $record) {
@@ -153,11 +138,14 @@ final class ImportController extends AbstractController
                 continue;
             }
 
-            $player = $this->createPlayerIfNotExist($importManager, $name, $club, $user);
+            $player = $playerService->findPlayerByNameInClub($name, $club);
+            if (!$player) {
+                $player = $playerService->createPlayer($name, $club, $user);
+            }
 
             $workloadData = [
-                'maxSpeed' => (float) str_replace(',', '.', $data['maximum velocity (km/h)'] ?? $data['max_speed'] ?? '0'),
-                'totalDistance' => (float) str_replace(',', '.', $data['total distance (m)'] ?? $data['total_distance'] ?? '0'),
+                'maxSpeed' => (float)str_replace(',', '.', $data['maximum velocity (km/h)'] ?? $data['max_speed'] ?? '0'),
+                'totalDistance' => (float)str_replace(',', '.', $data['total distance (m)'] ?? $data['total_distance'] ?? '0'),
                 'date' => $date
             ];
 
