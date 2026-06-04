@@ -101,6 +101,32 @@
 .input-wrap { position: relative; }
 
 
+/* ─── REGISTER TERMS ─── */
+.register-terms {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--s3);
+}
+
+.register-terms input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--red);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.register-terms-label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-sub);
+    cursor: pointer;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+
 /* ─── TOPBAR DATE ─── */
 .topbar-date {
     display: flex;
@@ -114,6 +140,23 @@
 
 .overview-metrics {
     margin-bottom: var(--s6);
+}
+
+.flash-container {
+    padding: 0 var(--s6);
+    margin-top: var(--s4);
+}
+
+.athlete-card {
+    padding: var(--s4) var(--s5);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    margin-bottom: var(--s2);
+    background: var(--bg-surface);
+}
+
+.athlete-card-name {
+    font-weight: 500;
 }
 
 
@@ -363,6 +406,10 @@
 
 
 /* ─── IMPORT ─── */
+.import-filters {
+    margin-bottom: var(--s6);
+}
+
 .import-dropzone {
     border: 2px dashed var(--border-light);
     border-radius: var(--r-xl);
@@ -370,6 +417,22 @@
     text-align: center;
     transition: all var(--t-mid) var(--ease);
     cursor: pointer;
+}
+
+.import-dropzone-label {
+    cursor: pointer;
+}
+
+.is-hidden {
+    display: none;
+}
+
+.import-history-section {
+    margin-top: var(--s7);
+}
+
+.import-history-section .section-title {
+    margin-bottom: var(--s4);
 }
 
 .import-dropzone:hover,

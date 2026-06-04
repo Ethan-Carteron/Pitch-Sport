@@ -10,7 +10,7 @@
         </div>
 
         <form action="{{ path('app_import') }}" method="post" enctype="multipart/form-data" id="import-form">
-            <div class="grid-2" style="margin-bottom: var(--s6)">
+            <div class="grid-2 import-filters">
                 <div class="input-group">
                     <label class="input-label" for="gps-provider">Matériel GPS</label>
                     <select class="input" id="gps-provider" name="gps_provider">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="import-text">Glissez votre fichier CSV ici</div>
                     <div class="import-sub">ou</div>
-                    <label class="btn btn-secondary" for="csv-file" style="cursor:pointer">
+                    <label class="btn btn-secondary import-dropzone-label" for="csv-file">
                         Parcourir les fichiers
                     </label>
                     <input type="file" name="csv" id="csv-file" accept=".csv" required class="sr-only">
@@ -48,7 +48,7 @@
             </div>
 
             {# ─── Dropzone : état fichier sélectionné ─── #}
-            <div class="import-preview" id="import-preview" style="display:none">
+            <div class="import-preview is-hidden" id="import-preview">
                 <div class="card">
                     <div class="import-file-info" id="import-file-info">
                         <div class="import-file-icon">
@@ -66,7 +66,7 @@
             </div>
 
             {# ─── Actions ─── #}
-            <div class="import-actions" id="import-actions" style="display:none">
+            <div class="import-actions is-hidden" id="import-actions">
                 <button type="submit" class="btn btn-primary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                     Lancer l'importation
@@ -75,8 +75,8 @@
         </form>
 
         {# ─── Historique imports ─── #}
-        <div style="margin-top: var(--s7)">
-            <div class="section-title" style="margin-bottom: var(--s4)">Imports récents</div>
+        <div class="import-history-section">
+            <div class="section-title">Imports récents</div>
             <div id="import-history">
                 <p class="text-sub">Aucun import récent.</p>
             </div>

@@ -33,16 +33,16 @@
         fileName.textContent = file.name;
         fileSize.textContent = formatBytes(file.size);
 
-        dropzone.style.display = 'none';
-        preview.style.display  = 'block';
-        actions.style.display  = 'flex';
+        dropzone.classList.add('is-hidden');
+        preview.classList.remove('is-hidden');
+        actions.classList.remove('is-hidden');
     }
 
     function resetToDropzone() {
         fileInput.value = '';
-        dropzone.style.display = 'block';
-        preview.style.display  = 'none';
-        actions.style.display  = 'none';
+        dropzone.classList.remove('is-hidden');
+        preview.classList.add('is-hidden');
+        actions.classList.add('is-hidden');
     }
 
     /* ─── File input change ─── */

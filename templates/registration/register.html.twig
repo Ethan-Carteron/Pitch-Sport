@@ -1,23 +1,58 @@
 {% extends '_layouts/standard.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Pitch - Inscription{% endblock %}
 
-{% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+{% block main %}
+<div id="screen-register" class="screen-login active">
+    <div class="login-bg">
+        <div class="login-grid"></div>
+    </div>
+    <div class="login-card">
+        <div class="login-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="Pitch" height="56">
+        </div>
+        <div class="login-header">
+            <h1 class="login-title">Créer un compte.</h1>
+            <p class="login-sub">Rejoignez votre espace club.</p>
+        </div>
 
-    <h1>Register</h1>
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-    {{ form_errors(registrationForm) }}
+        {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_start(registrationForm, { attr: { class: 'login-form' } }) }}
+            <div class="input-group">
+                {{ form_label(registrationForm.email, 'Email', { label_attr: { class: 'input-label' } }) }}
+                {{ form_widget(registrationForm.email, { attr: { class: 'input', placeholder: 'vous@votreclub.fr' } }) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div class="input-group">
+                {{ form_label(registrationForm.plainPassword, 'Mot de passe', { label_attr: { class: 'input-label' } }) }}
+                <div class="input-wrap">
+                    {{ form_widget(registrationForm.plainPassword, { attr: { class: 'input', placeholder: '••••••••' } }) }}
+                </div>
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+
+            <div class="input-group register-terms">
+                {{ form_widget(registrationForm.agreeTerms, { attr: { id: 'agreeTerms' } }) }}
+                {{ form_label(registrationForm.agreeTerms, "J'accepte les conditions d'utilisation", { label_attr: { class: 'register-terms-label', for: 'agreeTerms' } }) }}
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+                Créer mon compte
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+        {{ form_end(registrationForm) }}
+
+        <div class="login-footer">
+            <span>Déjà un compte ?</span>
+            <a href="{{ path('app_login') }}">Se connecter</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

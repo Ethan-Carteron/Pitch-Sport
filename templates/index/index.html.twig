@@ -5,15 +5,17 @@
 {% block content %}
     <div class="page active" id="page-overview">
         <div class="page-header">
-            <h1 class="page-title">Bonjour, Hugo.</h1>
+            <h1 class="page-title">Bonjour, Ethan.</h1>
             <p class="page-subtitle">Voici l'état de votre effectif ce matin.</p>
         </div>
 
-        <!-- Alerte rouge -->
+        {# Alerte rouge — masquée temporairement (calcul pas encore implémenté) #}
+        {#
         <div class="alert-banner rouge" id="alert-rouge">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <strong>1 athlète en zone de surcharge.</strong>&nbsp;Vérifiez la charge avant l'entraînement.
         </div>
+        #}
 
         <!-- KPIs -->
         <div class="grid-4 overview-metrics">
@@ -30,7 +32,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                     Zone rouge
                 </div>
-                <div class="metric-value rouge">1</div>
+                <div class="metric-value rouge">0</div>
                 <div class="metric-sub">surcharge détectée</div>
             </div>
             <div class="metric-card">
@@ -38,7 +40,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
                     Zone orange
                 </div>
-                <div class="metric-value orange">2</div>
+                <div class="metric-value orange">0</div>
                 <div class="metric-sub">à surveiller</div>
             </div>
             <div class="metric-card">
@@ -46,7 +48,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                     Zone verte
                 </div>
-                <div class="metric-value vert">8</div>
+                <div class="metric-value vert">0</div>
                 <div class="metric-sub">charge optimale</div>
             </div>
         </div>
@@ -64,8 +66,8 @@
 
         <div class="athletes-list" id="athletes-list">
             {% for player in activePlayers %}
-                <div class="athlete-card" style="padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 0.5rem; background: var(--surface);">
-                    <div style="font-weight: 500;">{{ player.name }}</div>
+                <div class="athlete-card">
+                    <div class="athlete-card-name">{{ player.name }}</div>
                 </div>
             {% else %}
                 <p>Aucun joueur actif ces 30 derniers jours.</p>
