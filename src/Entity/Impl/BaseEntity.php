@@ -2,9 +2,9 @@
 
 namespace App\Entity\Impl;
 
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\User;
 
 abstract class BaseEntity
 {
@@ -32,71 +32,85 @@ abstract class BaseEntity
     #[ORM\Column(name: 'is_deleted', type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     protected bool $isDeleted = false;
 
-    public function getCreatedDate(): \DateTime {
+    public function getCreatedDate(): \DateTime
+    {
         return $this->createdDate;
     }
 
-    public function setCreatedDate(\DateTime $createdDate): self {
+    public function setCreatedDate(\DateTime $createdDate): self
+    {
         $this->createdDate = $createdDate;
 
         return $this;
     }
 
-    public function getCreatedBy(): ?User {
+    public function getCreatedBy(): ?User
+    {
         return $this->createdBy;
     }
 
-    public function setCreatedBy(?User $createdBy): self {
+    public function setCreatedBy(?User $createdBy): self
+    {
         $this->createdBy = $createdBy;
 
         return $this;
     }
 
-    public function getUpdatedDate(): ?\DateTime {
+    public function getUpdatedDate(): ?\DateTime
+    {
         return $this->updatedDate;
     }
 
-    public function setUpdatedDate(?\DateTime $updatedDate): self {
+    public function setUpdatedDate(?\DateTime $updatedDate): self
+    {
         $this->updatedDate = $updatedDate;
 
         return $this;
     }
 
-    public function getUpdatedBy(): ?User {
+    public function getUpdatedBy(): ?User
+    {
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(?User $updatedBy): self {
+    public function setUpdatedBy(?User $updatedBy): self
+    {
         $this->updatedBy = $updatedBy;
 
         return $this;
     }
 
-    public function getDeletedDate(): ?\DateTime {
+    public function getDeletedDate(): ?\DateTime
+    {
         return $this->deletedDate;
     }
 
-    public function setDeletedDate(?\DateTime $deletedDate): self {
+    public function setDeletedDate(?\DateTime $deletedDate): self
+    {
         $this->deletedDate = $deletedDate;
 
         return $this;
     }
 
-    public function getDeletedBy(): ?User {
+    public function getDeletedBy(): ?User
+    {
         return $this->deletedBy;
     }
 
-    public function setDeletedBy(?User $deletedBy): self {
+    public function setDeletedBy(?User $deletedBy): self
+    {
         $this->deletedBy = $deletedBy;
 
         return $this;
     }
 
-    public function isDeleted(): bool {
+    public function isDeleted(): bool
+    {
         return $this->isDeleted;
     }
 
-    public function setIsDeleted(bool $isDeleted): self {
+    public function setIsDeleted(bool $isDeleted): self
+    {
         $this->isDeleted = $isDeleted;
 
         return $this;

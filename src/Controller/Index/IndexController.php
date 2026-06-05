@@ -2,11 +2,10 @@
 
 namespace App\Controller\Index;
 
+use App\Service\PlayerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
-use App\Service\PlayerService;
 
 final class IndexController extends AbstractController
 {

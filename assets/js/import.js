@@ -9,11 +9,11 @@
     'use strict';
 
     const dropzone = document.getElementById('import-dropzone');
-    const preview  = document.getElementById('import-preview');
-    const actions  = document.getElementById('import-actions');
+    const preview = document.getElementById('import-preview');
+    const actions = document.getElementById('import-actions');
     const fileInput = document.getElementById('csv-file');
-    const fileName  = document.getElementById('import-file-name');
-    const fileSize  = document.getElementById('import-file-size');
+    const fileName = document.getElementById('import-file-name');
+    const fileSize = document.getElementById('import-file-size');
     const removeBtn = document.getElementById('import-file-remove');
 
     if (!dropzone || !fileInput) {

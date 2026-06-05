@@ -11,29 +11,23 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: WorkloadRepository::class)]
 class Workload extends BaseEntity
 {
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    protected DateTime $createdDate;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $duration = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $totalDistance = null;
-
     #[ORM\Column(nullable: true)]
     private ?float $maxSpeed = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $acceleration = null;
-
     #[ORM\ManyToOne(inversedBy: 'workloads')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Player $player = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    protected DateTime $createdDate;
 
     public function getId(): ?int
     {

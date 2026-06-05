@@ -69,45 +69,6 @@ final class ImportController extends AbstractController
         return $this->redirectToRoute('app_import');
     }
 
-    public function formatData(array $record): array
-    {
-        $data = [];
-        foreach ($record as $key => $value) {
-            $data[strtolower(trim((string)$key))] = $value;
-        }
-        return $data;
-    }
-
-    public function workloadInitialization(
-        Player                 $player,
-        User                   $user,
-        array                  $workloadData,
-        EntityManagerInterface $entityManagerInterface
-    ): void
-    {
-        $workload = new Workload();
-        $workload->setPlayer($player);
-        $workload->setMaxSpeed($workloadData['maxSpeed']);
-        $workload->setTotalDistance($workloadData['totalDistance']);
-        $workload->setCreatedBy($user);
-        $workload->setCreatedDate($workloadData['date']);
-
-        $entityManagerInterface->persist($workload);
-    }
-
-    public function successRateManager(int $countSuccess, int $countSkipped): void
-    {
-        if ($countSuccess > 0) {
-            $this->addFlash('success', sprintf('%d lignes importées avec succès.', $countSuccess));
-        }
-        if ($countSkipped > 0) {
-            $this->addFlash('warning', sprintf('%d lignes ignorées (format invalide ou colonnes manquantes).', $countSkipped));
-        }
-        if ($countSuccess === 0 && $countSkipped === 0) {
-            $this->addFlash('info', 'Le fichier CSV semble vide.');
-        }
-    }
-
     public function csvReading(
         Iterator               $records,
         PlayerService          $playerService,
@@ -162,5 +123,44 @@ final class ImportController extends AbstractController
             $stats['success']++;
         }
         return $stats;
+    }
+
+    public function formatData(array $record): array
+    {
+        $data = [];
+        foreach ($record as $key => $value) {
+            $data[strtolower(trim((string)$key))] = $value;
+        }
+        return $data;
+    }
+
+    public function workloadInitialization(
+        Player                 $player,
+        User                   $user,
+        array                  $workloadData,
+        EntityManagerInterface $entityManagerInterface
+    ): void
+    {
+        $workload = new Workload();
+        $workload->setPlayer($player);
+        $workload->setMaxSpeed($workloadData['maxSpeed']);
+        $workload->setTotalDistance($workloadData['totalDistance']);
+        $workload->setCreatedBy($user);
+        $workload->setCreatedDate($workloadData['date']);
+
+        $entityManagerInterface->persist($workload);
+    }
+
+    public function successRateManager(int $countSuccess, int $countSkipped): void
+    {
+        if ($countSuccess > 0) {
+            $this->addFlash('success', sprintf('%d lignes importées avec succès.', $countSuccess));
+        }
+        if ($countSkipped > 0) {
+            $this->addFlash('warning', sprintf('%d lignes ignorées (format invalide ou colonnes manquantes).', $countSkipped));
+        }
+        if ($countSuccess === 0 && $countSkipped === 0) {
+            $this->addFlash('info', 'Le fichier CSV semble vide.');
+        }
     }
 }

@@ -3,59 +3,65 @@
 {% block title %}Pitch - Connexion{% endblock %}
 
 {% block main %}
-<div id="screen-login" class="screen-login active">
-    <div class="login-bg">
-        <div class="login-grid"></div>
-    </div>
-    <div class="login-card">
-        <div class="login-logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Pitch" height="56">
+    <div id="screen-login" class="screen-login active">
+        <div class="login-bg">
+            <div class="login-grid"></div>
         </div>
-        <div class="login-header">
-            <h1 class="login-title">Bon retour.</h1>
-            <p class="login-sub">Connectez-vous à votre espace club.</p>
-        </div>
-
-        {# Logique métier Symfony : Gestion des erreurs #}
-        {% if error %}
-            <div class="alert alert-danger">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="{{ asset('images/logo.png') }}" alt="Pitch" height="56">
             </div>
-        {% endif %}
-
-        {# Logique métier Symfony : Redirection si déjà connecté #}
-        {% if app.user %}
-            <div class="alert alert-info">
-                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-            </div>
-        {% endif %}
-
-        <form method="post" class="login-form">
-            <div class="input-group">
-                <label for="inputEmail" class="input-label">Email</label>
-                <input class="input" type="email" value="{{ last_username }}" name="_username" id="inputEmail" placeholder="vous@votreclub.fr" autocomplete="email" required autofocus>
+            <div class="login-header">
+                <h1 class="login-title">Bon retour.</h1>
+                <p class="login-sub">Connectez-vous à votre espace club.</p>
             </div>
 
-            <div class="input-group">
-                <label for="inputPassword" class="input-label">Mot de passe</label>
-                <div class="input-wrap">
-                    <input class="input" type="password" name="_password" id="inputPassword" placeholder="••••••••" autocomplete="current-password" required>
+            {# Logique métier Symfony : Gestion des erreurs #}
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
                 </div>
+            {% endif %}
+
+            {# Logique métier Symfony : Redirection si déjà connecté #}
+            {% if app.user %}
+                <div class="alert alert-info">
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </div>
+            {% endif %}
+
+            <form method="post" class="login-form">
+                <div class="input-group">
+                    <label for="inputEmail" class="input-label">Email</label>
+                    <input class="input" type="email" value="{{ last_username }}" name="_username" id="inputEmail"
+                           placeholder="vous@votreclub.fr" autocomplete="email" required autofocus>
+                </div>
+
+                <div class="input-group">
+                    <label for="inputPassword" class="input-label">Mot de passe</label>
+                    <div class="input-wrap">
+                        <input class="input" type="password" name="_password" id="inputPassword" placeholder="••••••••"
+                               autocomplete="current-password" required>
+                    </div>
+                </div>
+
+                {# Jeton de sécurité CSRF obligatoire #}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn btn-primary btn-full">
+                    Se connecter
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <span>Pas encore de compte ?</span>
+                <a href="{{ path('app_register') }}">Créer un compte</a>
             </div>
-
-            {# Jeton de sécurité CSRF obligatoire #}
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit" class="btn btn-primary btn-full">
-                Se connecter
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </button>
-        </form>
-
-        <div class="login-footer">
-            <span>Pas encore de compte ?</span>
-            <a href="{{ path('app_register') }}">Créer un compte</a>
         </div>
     </div>
-</div>
 {% endblock %}

@@ -17,7 +17,9 @@ readonly class CsvImportService
     public function __construct
     (
         private EntityManagerInterface $entityManager
-    ) {}
+    )
+    {
+    }
 
     /**
      * @throws UnavailableStream
@@ -27,7 +29,7 @@ readonly class CsvImportService
     (
         string $filePath,
         Player $player,
-        User $user
+        User   $user
     ): int
     {
         $csv = Reader::from($filePath);
@@ -39,10 +41,10 @@ readonly class CsvImportService
         foreach ($records as $record) {
             $workload = new Workload();
             $workload->setPlayer($player);
-            $workload->setTotalDistance((float) $record['distance']);
-            $workload->setMaxSpeed((float) $record['speed']);
-            $workload->setDuration((float) $record['duration']);
-            $workload->setAcceleration((float) $record['acceleration']);
+            $workload->setTotalDistance((float)$record['distance']);
+            $workload->setMaxSpeed((float)$record['speed']);
+            $workload->setDuration((float)$record['duration']);
+            $workload->setAcceleration((float)$record['acceleration']);
             $workload->setCreatedBy($user);
             $workload->setCreatedDate(new DateTime());
 

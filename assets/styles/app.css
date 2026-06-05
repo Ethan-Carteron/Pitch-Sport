@@ -13,7 +13,9 @@
     overflow: hidden;
 }
 
-.screen-login.active { display: flex; }
+.screen-login.active {
+    display: flex;
+}
 
 .login-bg {
     position: absolute;
@@ -24,9 +26,8 @@
 .login-grid {
     position: absolute;
     inset: 0;
-    background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 48px 48px;
     opacity: .4;
     mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
@@ -44,7 +45,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--s5);
-    box-shadow: 0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.03);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, .03);
 }
 
 .login-logo {
@@ -52,7 +53,9 @@
     justify-content: center;
 }
 
-.login-header { text-align: center; }
+.login-header {
+    text-align: center;
+}
 
 .login-title {
     font-family: var(--font-title);
@@ -72,8 +75,13 @@
     gap: var(--s4);
 }
 
-.login-form .input-group:nth-child(1) { margin-bottom: var(--s4); }
-.login-form .input-group:nth-child(2) { margin-bottom: var(--s5); }
+.login-form .input-group:nth-child(1) {
+    margin-bottom: var(--s4);
+}
+
+.login-form .input-group:nth-child(2) {
+    margin-bottom: var(--s5);
+}
 
 .btn-full {
     width: 100%;
@@ -96,9 +104,13 @@
     font-weight: 600;
 }
 
-.login-footer a:hover { text-decoration: underline; }
+.login-footer a:hover {
+    text-decoration: underline;
+}
 
-.input-wrap { position: relative; }
+.input-wrap {
+    position: relative;
+}
 
 
 /* ─── REGISTER TERMS ─── */
@@ -186,9 +198,17 @@
     transform: translateX(2px);
 }
 
-.athlete-row.rouge  { border-left-color: #e8384a; }
-.athlete-row.orange { border-left-color: #f59e0b; }
-.athlete-row.vert   { border-left-color: #10b981; }
+.athlete-row.rouge {
+    border-left-color: #e8384a;
+}
+
+.athlete-row.orange {
+    border-left-color: #f59e0b;
+}
+
+.athlete-row.vert {
+    border-left-color: #10b981;
+}
 
 .athlete-row-dot {
     width: 8px;
@@ -197,9 +217,20 @@
     flex-shrink: 0;
 }
 
-.rouge  .athlete-row-dot { background: #e8384a; box-shadow: 0 0 8px rgba(232,56,74,.6); }
-.orange .athlete-row-dot { background: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,.5); }
-.vert   .athlete-row-dot { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,.5); }
+.rouge .athlete-row-dot {
+    background: #e8384a;
+    box-shadow: 0 0 8px rgba(232, 56, 74, .6);
+}
+
+.orange .athlete-row-dot {
+    background: #f59e0b;
+    box-shadow: 0 0 8px rgba(245, 158, 11, .5);
+}
+
+.vert .athlete-row-dot {
+    background: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, .5);
+}
 
 .athlete-row-name {
     flex: 1;
@@ -270,7 +301,9 @@
     transition: color var(--t-fast);
 }
 
-.athlete-back:hover { color: var(--text); }
+.athlete-back:hover {
+    color: var(--text);
+}
 
 
 /* ─── ATHLETE HEADER ─── */
@@ -300,7 +333,9 @@
     flex-shrink: 0;
 }
 
-.athlete-profile-info { flex: 1; }
+.athlete-profile-info {
+    flex: 1;
+}
 
 .athlete-profile-name {
     font-family: var(--font-title);
@@ -356,7 +391,9 @@
     border-bottom: 1px solid var(--border);
 }
 
-.session-row:last-child { border-bottom: none; }
+.session-row:last-child {
+    border-bottom: none;
+}
 
 .session-date {
     font-family: var(--font-label);
@@ -376,8 +413,15 @@
     flex-shrink: 0;
 }
 
-.session-type.match    { background: var(--red-dim); color: var(--red); }
-.session-type.training { background: var(--bg-hover); color: var(--text-sub); }
+.session-type.match {
+    background: var(--red-dim);
+    color: var(--red);
+}
+
+.session-type.training {
+    background: var(--bg-hover);
+    color: var(--text-sub);
+}
 
 .session-metrics {
     display: flex;
@@ -496,7 +540,7 @@
     height: 40px;
     border-radius: var(--r-sm);
     background: var(--green-dim);
-    border: 1px solid rgba(16,185,129,.3);
+    border: 1px solid rgba(16, 185, 129, .3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -537,7 +581,10 @@
     flex-shrink: 0;
 }
 
-.mapping-arrow { color: var(--text-dim); flex-shrink: 0; }
+.mapping-arrow {
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
 
 .mapping-to {
     font-family: var(--font-label);
@@ -673,8 +720,17 @@
     color: var(--text-sub);
 }
 
-.wellness-star:hover { background: var(--bg-hover); border-color: var(--border-light); color: var(--text); }
-.wellness-star.selected { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+.wellness-star:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-light);
+    color: var(--text);
+}
+
+.wellness-star.selected {
+    background: var(--red-dim);
+    border-color: var(--red);
+    color: var(--red);
+}
 
 .wellness-star-labels {
     display: flex;
@@ -695,7 +751,7 @@
     height: 72px;
     border-radius: 50%;
     background: var(--green-dim);
-    border: 1px solid rgba(16,185,129,.4);
+    border: 1px solid rgba(16, 185, 129, .4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -727,7 +783,9 @@
     border-bottom: 1px solid var(--border);
 }
 
-.staff-row:last-child { border-bottom: none; }
+.staff-row:last-child {
+    border-bottom: none;
+}
 
 .staff-avatar {
     width: 36px;
@@ -770,7 +828,9 @@
     border-bottom: 1px solid var(--border);
 }
 
-.settings-athlete-row:last-child { border-bottom: none; }
+.settings-athlete-row:last-child {
+    border-bottom: none;
+}
 
 .thresholds-grid {
     display: flex;
@@ -784,7 +844,10 @@
     gap: var(--s5);
 }
 
-.threshold-label { width: 140px; flex-shrink: 0; }
+.threshold-label {
+    width: 140px;
+    flex-shrink: 0;
+}
 
 .threshold-range {
     display: flex;
@@ -798,4 +861,7 @@
     font-size: 14px;
 }
 
-.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+}
