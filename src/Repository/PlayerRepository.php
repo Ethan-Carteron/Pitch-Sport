@@ -30,6 +30,7 @@ class PlayerRepository extends ServiceEntityRepository
             // ->andWhere('workload.createdDate >= :date')
             // ->setParameter('date', $date)
             ->groupBy('player.id')
+            ->orderBy('player.score', 'DESC')
             ->getQuery()
             ->getResult();
     }
