@@ -25,6 +25,8 @@ class Workload extends BaseEntity
     private ?float $maxSpeed = null;
     #[ORM\Column(nullable: true)]
     private ?int $acceleration = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $deceleration = null;
     #[ORM\ManyToOne(inversedBy: 'workloads')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Player $player = null;
@@ -78,6 +80,18 @@ class Workload extends BaseEntity
     public function setAcceleration(?int $acceleration): static
     {
         $this->acceleration = $acceleration;
+
+        return $this;
+    }
+
+    public function getDeceleration(): ?int
+    {
+        return $this->deceleration;
+    }
+
+    public function setDeceleration(?int $deceleration): static
+    {
+        $this->deceleration = $deceleration;
 
         return $this;
     }
