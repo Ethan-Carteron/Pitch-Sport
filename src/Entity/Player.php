@@ -38,10 +38,14 @@ class Player extends BaseEntity
     #[ORM\Column(nullable: true)]
     private ?int $score = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $uid = null;
+
     public function __construct()
     {
         $this->wellnessQuestions = new ArrayCollection();
         $this->workloads = new ArrayCollection();
+        $this->uid = bin2hex(random_bytes(16));
     }
 
     public function getId(): ?int
@@ -141,6 +145,18 @@ class Player extends BaseEntity
     public function setScore(int $score): static
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    public function getUid(): ?string
+    {
+        return $this->uid;
+    }
+
+    public function setUid(?string $uid): static
+    {
+        $this->uid = $uid;
 
         return $this;
     }
