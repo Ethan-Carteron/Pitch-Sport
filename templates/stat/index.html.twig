@@ -1,9 +1,9 @@
 {% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Fiche Athlète{% endblock %}
+{% block title %}Fiche Athlète - PitchSport{% endblock %}
 
-{% block body %}
-<div class="page" id="page-athlete">
+{% block content %}
+<div class="page active" id="page-athlete">
 <div class="athlete-back">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
   Retour à l'effectif
@@ -11,10 +11,10 @@
 
 <div class="athlete-header" id="athlete-header"></div>
 
-<div class="grid-4" id="athlete-metrics" style="margin: var(--s6) 0"></div>
+<div class="grid-4 athlete-metrics-grid" id="athlete-metrics"></div>
 
-<div class="card" style="margin-bottom: var(--s5)">
-  <div class="section-header" style="margin-bottom: var(--s4)">
+<div class="card athlete-history-card">
+  <div class="section-header athlete-history-header">
     <div class="section-title">Historique de charge</div>
     <div class="tabs" id="athlete-chart-tabs">
       <div class="tab active">ACWR</div>
@@ -23,13 +23,13 @@
       <div class="tab">Accél / Décél</div>
     </div>
   </div>
-  <div style="height: 260px; position: relative">
+  <div class="athlete-chart-wrapper">
     <canvas id="athlete-chart"></canvas>
   </div>
 </div>
 
 <div class="card">
-  <div class="section-title" style="margin-bottom: var(--s4)">Dernières séances</div>
+  <div class="section-title athlete-sessions-title">Dernières séances</div>
   <div id="athlete-sessions"></div>
 </div>
 </div>

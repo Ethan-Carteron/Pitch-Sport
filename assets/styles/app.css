@@ -886,3 +886,21 @@ select.input option {
     padding: 6px 12px;
     font-size: 12px;
 }
+
+/* Athlete Stats Page Specifics */
+.athlete-metrics-grid {
+    margin: var(--s6) 0;
+}
+.athlete-history-card {
+    margin-bottom: var(--s5);
+}
+.athlete-history-header {
+    margin-bottom: var(--s4);
+}
+.athlete-chart-wrapper {
+    height: 260px;
+    position: relative;
+}
+.athlete-sessions-title {
+    margin-bottom: var(--s4);
+}
