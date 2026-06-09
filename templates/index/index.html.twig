@@ -3,6 +3,7 @@
 {% block title %}Accueil ! - PitchSport{% endblock %}
 
 {% block content %}
+    {% set currentFilter = app.request.query.get('filter', 'all') %}
     <div class="page active" id="page-overview">
         <div class="page-header">
             <h1 class="page-title">Bonjour, Ethan.</h1>
@@ -18,7 +19,7 @@
 
         <!-- KPIs -->
         <div class="grid-4 overview-metrics">
-            <div class="metric-card">
+            <a href="{{ path('home', {filter: currentFilter == 'all' ? 'all' : 'all'}) }}" class="metric-card {% if currentFilter == 'all' %}active{% endif %}" data-filter="all" id="kpi-all">
                 <div class="metric-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -30,8 +31,8 @@
                 </div>
                 <div class="metric-value neutral">{{ activePlayersCount }}</div>
                 <div class="metric-sub">athlètes suivis</div>
-            </div>
-            <div class="metric-card" data-filter="rouge" id="kpi-rouge">
+            </a>
+            <a href="{{ path('home', {filter: currentFilter == 'rouge' ? 'all' : 'rouge'}) }}" class="metric-card {% if currentFilter == 'rouge' %}active{% endif %}" data-filter="rouge" id="kpi-rouge">
                 <div class="metric-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"/>
@@ -42,8 +43,8 @@
                 </div>
                 <div class="metric-value rouge">{{ redCount }}</div>
                 <div class="metric-sub">surcharge détectée</div>
-            </div>
-            <div class="metric-card" data-filter="orange" id="kpi-orange">
+            </a>
+            <a href="{{ path('home', {filter: currentFilter == 'orange' ? 'all' : 'orange'}) }}" class="metric-card {% if currentFilter == 'orange' %}active{% endif %}" data-filter="orange" id="kpi-orange">
                 <div class="metric-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -53,8 +54,8 @@
                 </div>
                 <div class="metric-value orange">{{ orangeCount }}</div>
                 <div class="metric-sub">à surveiller</div>
-            </div>
-            <div class="metric-card" data-filter="vert" id="kpi-vert">
+            </a>
+            <a href="{{ path('home', {filter: currentFilter == 'vert' ? 'all' : 'vert'}) }}" class="metric-card {% if currentFilter == 'vert' %}active{% endif %}" data-filter="vert" id="kpi-vert">
                 <div class="metric-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="20 6 9 17 4 12"/>
@@ -63,77 +64,37 @@
                 </div>
                 <div class="metric-value vert">{{ greenCount }}</div>
                 <div class="metric-sub">charge optimale</div>
-            </div>
+            </a>
         </div>
 
         <!-- Filtre + liste -->
         <div class="section-header">
             <div class="section-title">Effectif complet</div>
             <div class="tabs" id="filter-tabs">
-                <div class="tab active" data-filter="all">Tous</div>
-                <div class="tab" data-filter="rouge">Rouge</div>
-                <div class="tab" data-filter="orange">Orange</div>
-                <div class="tab" data-filter="vert">Vert</div>
+                <a href="{{ path('home', {filter: 'all'}) }}" class="tab {% if currentFilter == 'all' %}active{% endif %}">Tous</a>
+                <a href="{{ path('home', {filter: 'rouge'}) }}" class="tab {% if currentFilter == 'rouge' %}active{% endif %}">Rouge</a>
+                <a href="{{ path('home', {filter: 'orange'}) }}" class="tab {% if currentFilter == 'orange' %}active{% endif %}">Orange</a>
+                <a href="{{ path('home', {filter: 'vert'}) }}" class="tab {% if currentFilter == 'vert' %}active{% endif %}">Vert</a>
             </div>
         </div>
 
         <div class="athletes-list" id="athletes-list">
+            {% set filteredPlayers = [] %}
             {% for player in activePlayers %}
-                {% if player.score == 2 %}
-                    {% set colorClass = 'rouge' %}
-                {% elseif player.score == 1 %}
-                    {% set colorClass = 'orange' %}
-                {% else %}
-                    {% set colorClass = 'vert' %}
+                {% set colorClass = player.score == 2 ? 'rouge' : (player.score == 1 ? 'orange' : 'vert') %}
+                {% if currentFilter == 'all' or colorClass == currentFilter %}
+                    {% set filteredPlayers = filteredPlayers|merge([{player: player, colorClass: colorClass}]) %}
                 {% endif %}
+            {% endfor %}
 
-                <div class="athlete-row {{ colorClass }}" data-alert="{{ colorClass }}">
+            {% for item in filteredPlayers %}
+                <div class="athlete-row {{ item.colorClass }}">
                     <div class="athlete-row-dot"></div>
-                    <div class="athlete-row-name">{{ player.name }}</div>
+                    <div class="athlete-row-name">{{ item.player.name }}</div>
                 </div>
             {% else %}
-                <p>Aucun joueur actif ces 30 derniers jours.</p>
+                <p>Aucun joueur {% if currentFilter != 'all' %}dans cette zone{% else %}actif ces 30 derniers jours{% endif %}.</p>
             {% endfor %}
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const tabs = document.querySelectorAll('#filter-tabs .tab');
-            const kpis = document.querySelectorAll('.metric-card[data-filter]');
-            const rows = document.querySelectorAll('#athletes-list .athlete-row');
-
-            function applyFilter(filter) {
-                tabs.forEach(function (t) {
-                    t.classList.toggle('active', t.dataset.filter === filter);
-                });
-
-                kpis.forEach(function (k) {
-                    k.classList.toggle('active', k.dataset.filter === filter);
-                });
-
-                rows.forEach(function (row) {
-                    if (filter === 'all' || row.dataset.alert === filter) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            }
-
-            tabs.forEach(function (tab) {
-                tab.addEventListener('click', function () {
-                    applyFilter(tab.dataset.filter);
-                });
-            });
-
-            kpis.forEach(function (kpi) {
-                kpi.addEventListener('click', function () {
-                    var filter = kpi.dataset.filter;
-                    var currentlyActive = kpi.classList.contains('active');
-                    applyFilter(currentlyActive ? 'all' : filter);
-                });
-            });
-        });
-    </script>
 {% endblock %}

@@ -788,3 +788,4 @@ input, textarea, select {
         padding: 0 var(--s4);
     }
 }
+.metric-card, .tab { text-decoration: none; color: inherit; }
