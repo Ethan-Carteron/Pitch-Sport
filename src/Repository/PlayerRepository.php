@@ -43,4 +43,27 @@ class PlayerRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * @return array<int, int> Indexed by alert level (0=green, 1=orange, 2=red)
+     */
+    public function countByAlertLevel(): array
+    {
+        $results = $this->createQueryBuilder('p')
+            ->select('p.score, COUNT(p.id) as total')
+            ->andWhere('p.isDeleted = false')
+            ->groupBy('p.score')
+            ->getQuery()
+            ->getResult();
+
+        $counts = [0 => 0, 1 => 0, 2 => 0];
+        foreach ($results as $row) {
+            $score = $row['score'];
+            if ($score !== null && isset($counts[$score])) {
+                $counts[$score] = (int) $row['total'];
+            }
+        }
+
+        return $counts;
+    }
 }

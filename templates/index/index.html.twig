@@ -9,13 +9,12 @@
             <p class="page-subtitle">Voici l'état de votre effectif ce matin.</p>
         </div>
 
-        {# Alerte rouge — masquée temporairement (calcul pas encore implémenté) #}
-        {#
-        <div class="alert-banner rouge" id="alert-rouge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <strong>1 athlète en zone de surcharge.</strong>&nbsp;Vérifiez la charge avant l'entraînement.
-        </div>
-        #}
+        {% if redCount > 0 %}
+            <div class="alert-banner rouge" id="alert-rouge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <strong>{{ redCount }} athlète{{ redCount > 1 ? 's' : '' }} en zone de surcharge.</strong>&nbsp;Vérifiez la charge avant l'entraînement.
+            </div>
+        {% endif %}
 
         <!-- KPIs -->
         <div class="grid-4 overview-metrics">
@@ -32,7 +31,7 @@
                 <div class="metric-value neutral">{{ activePlayersCount }}</div>
                 <div class="metric-sub">athlètes suivis</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card" data-filter="rouge" id="kpi-rouge">
                 <div class="metric-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"/>
@@ -41,10 +40,10 @@
                     </svg>
                     Zone rouge
                 </div>
-                <div class="metric-value rouge">0</div>
+                <div class="metric-value rouge">{{ redCount }}</div>
                 <div class="metric-sub">surcharge détectée</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card" data-filter="orange" id="kpi-orange">
                 <div class="metric-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -52,17 +51,17 @@
                     </svg>
                     Zone orange
                 </div>
-                <div class="metric-value orange">0</div>
+                <div class="metric-value orange">{{ orangeCount }}</div>
                 <div class="metric-sub">à surveiller</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card" data-filter="vert" id="kpi-vert">
                 <div class="metric-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="20 6 9 17 4 12"/>
                     </svg>
                     Zone verte
                 </div>
-                <div class="metric-value vert">0</div>
+                <div class="metric-value vert">{{ greenCount }}</div>
                 <div class="metric-sub">charge optimale</div>
             </div>
         </div>
@@ -70,22 +69,71 @@
         <!-- Filtre + liste -->
         <div class="section-header">
             <div class="section-title">Effectif complet</div>
-            <div class="tabs">
-                <div class="tab active">Tous</div>
-                <div class="tab">Rouge</div>
-                <div class="tab">Orange</div>
-                <div class="tab">Vert</div>
+            <div class="tabs" id="filter-tabs">
+                <div class="tab active" data-filter="all">Tous</div>
+                <div class="tab" data-filter="rouge">Rouge</div>
+                <div class="tab" data-filter="orange">Orange</div>
+                <div class="tab" data-filter="vert">Vert</div>
             </div>
         </div>
 
         <div class="athletes-list" id="athletes-list">
             {% for player in activePlayers %}
-                <div class="athlete-card">
-                    <div class="athlete-card-name">{{ player.name }}</div>
+                {% if player.score == 2 %}
+                    {% set colorClass = 'rouge' %}
+                {% elseif player.score == 1 %}
+                    {% set colorClass = 'orange' %}
+                {% else %}
+                    {% set colorClass = 'vert' %}
+                {% endif %}
+
+                <div class="athlete-row {{ colorClass }}" data-alert="{{ colorClass }}">
+                    <div class="athlete-row-dot"></div>
+                    <div class="athlete-row-name">{{ player.name }}</div>
                 </div>
             {% else %}
                 <p>Aucun joueur actif ces 30 derniers jours.</p>
             {% endfor %}
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('#filter-tabs .tab');
+            const kpis = document.querySelectorAll('.metric-card[data-filter]');
+            const rows = document.querySelectorAll('#athletes-list .athlete-row');
+
+            function applyFilter(filter) {
+                tabs.forEach(function (t) {
+                    t.classList.toggle('active', t.dataset.filter === filter);
+                });
+
+                kpis.forEach(function (k) {
+                    k.classList.toggle('active', k.dataset.filter === filter);
+                });
+
+                rows.forEach(function (row) {
+                    if (filter === 'all' || row.dataset.alert === filter) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    applyFilter(tab.dataset.filter);
+                });
+            });
+
+            kpis.forEach(function (kpi) {
+                kpi.addEventListener('click', function () {
+                    var filter = kpi.dataset.filter;
+                    var currentlyActive = kpi.classList.contains('active');
+                    applyFilter(currentlyActive ? 'all' : filter);
+                });
+            });
+        });
+    </script>
 {% endblock %}
