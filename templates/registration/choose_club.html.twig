@@ -1,0 +1,36 @@
+{% extends '_layouts/standard.html.twig' %}
+
+{% block title %}Pitch - Choisir votre club{% endblock %}
+
+{% block main %}
+    <div id="screen-choose-club" class="screen-login active">
+        <div class="login-bg">
+            <div class="login-grid"></div>
+        </div>
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="{{ asset('images/logo.png') }}" alt="Pitch" height="56">
+            </div>
+            <div class="login-header">
+                <h1 class="login-title">Votre club.</h1>
+                <p class="login-sub">Sélectionnez le club auquel vous appartenez.</p>
+            </div>
+
+            {{ form_start(clubForm, { attr: { class: 'login-form' } }) }}
+            <div class="input-group">
+                {{ form_label(clubForm.club, 'Club', { label_attr: { class: 'input-label' } }) }}
+                {{ form_widget(clubForm.club, { attr: { class: 'input' } }) }}
+                {{ form_errors(clubForm.club) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+                Rejoindre le club
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                </svg>
+            </button>
+            {{ form_end(clubForm) }}
+        </div>
+    </div>
+{% endblock %}

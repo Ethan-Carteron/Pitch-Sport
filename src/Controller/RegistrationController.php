@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ClubSelectionFormType;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,13 +49,42 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            // do anything else you need here, like send an email
+            // Login then redirect to club selection
+            $security->login($user, 'form_login', 'main');
 
-            return $security->login($user, 'form_login', 'main');
+            return $this->redirectToRoute('app_choose_club');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
+        ]);
+    }
+
+    #[Route('/choose-club', name: 'app_choose_club')]
+    public function chooseClub(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        // If the user already has a club, redirect to homepage
+        if ($user->getClub() !== null) {
+            return $this->redirectToRoute('home');
+        }
+
+        $form = $this->createForm(ClubSelectionFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setClub($form->get('club')->getData());
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('registration/choose_club.html.twig', [
+            'clubForm' => $form,
         ]);
     }
 
