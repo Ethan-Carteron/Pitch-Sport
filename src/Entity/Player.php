@@ -35,6 +35,9 @@ class Player extends BaseEntity
     #[ORM\OneToMany(targetEntity: Workload::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $workloads;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $score = null;
+
     public function __construct()
     {
         $this->wellnessQuestions = new ArrayCollection();
@@ -126,6 +129,18 @@ class Player extends BaseEntity
                 $workload->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(int $score): static
+    {
+        $this->score = $score;
 
         return $this;
     }

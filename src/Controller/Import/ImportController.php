@@ -6,6 +6,7 @@ use App\Entity\Club;
 use App\Entity\Player;
 use App\Entity\User;
 use App\Entity\Workload;
+use App\Service\CalculService;
 use App\Service\ImportManagerService;
 use App\Service\PlayerService;
 use DateTime;
@@ -30,6 +31,7 @@ final class ImportController extends AbstractController
     public function import(
         Request                $request,
         PlayerService          $playerService,
+        CalculService          $calculService,
         EntityManagerInterface $entityManagerInterface,
         #[CurrentUser] User    $user
 
@@ -55,15 +57,24 @@ final class ImportController extends AbstractController
 
         $records = $reader->getRecords();
 
+        $playerCache = [];
+
         $stats = $this->csvReading(
             $records,
             $playerService,
             $club,
             $user,
             $entityManagerInterface,
-            $stats
+            $stats,
+            $playerCache
         );
         $entityManagerInterface->flush();
+
+        foreach ($playerCache as $player) {
+            $calculService->updatePlayerAlertLevel($player);
+        }
+        $entityManagerInterface->flush();
+
         $this->successRateManager($stats['success'], $stats['skipped']);
 
         return $this->redirectToRoute('app_import');
@@ -75,10 +86,10 @@ final class ImportController extends AbstractController
         Club                   $club,
         User                   $user,
         EntityManagerInterface $em,
-        array                  $stats
+        array                  $stats,
+        array                  &$playerCache
     ): array
     {
-        $playerCache = [];
 
         foreach ($records as $record) {
             $data = $this->formatData($record);
@@ -116,6 +127,8 @@ final class ImportController extends AbstractController
             $workloadData = [
                 'maxSpeed' => (float)str_replace(',', '.', $data['maximum velocity (km/h)'] ?? $data['max_speed'] ?? '0'),
                 'totalDistance' => (float)str_replace(',', '.', $data['total distance (m)'] ?? $data['total_distance'] ?? '0'),
+                'acceleration' => (int)round((float)str_replace(',', '.', $data['total acceleration b1 - b2'] ?? $data['acceleration'] ?? '0')),
+                'deceleration' => (int)round((float)str_replace(',', '.', $data['total decceleration b1 - b2'] ?? $data['deceleration'] ?? '0')),
                 'date' => $date
             ];
 
@@ -145,6 +158,8 @@ final class ImportController extends AbstractController
         $workload->setPlayer($player);
         $workload->setMaxSpeed($workloadData['maxSpeed']);
         $workload->setTotalDistance($workloadData['totalDistance']);
+        $workload->setAcceleration($workloadData['acceleration']);
+        $workload->setDeceleration($workloadData['deceleration']);
         $workload->setCreatedBy($user);
         $workload->setCreatedDate($workloadData['date']);
 
