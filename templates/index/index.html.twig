@@ -88,10 +88,10 @@
             {% endfor %}
 
             {% for item in filteredPlayers %}
-                <div class="athlete-row {{ item.colorClass }}">
+                <a href="{{ path('app_stat', {uid: item.player.uid}) }}" class="athlete-row {{ item.colorClass }}" style="text-decoration: none; color: inherit; display: flex;">
                     <div class="athlete-row-dot"></div>
                     <div class="athlete-row-name">{{ item.player.name }}</div>
-                </div>
+                </a>
             {% else %}
                 <p>Aucun joueur {% if currentFilter != 'all' %}dans cette zone{% else %}actif ces 30 derniers jours{% endif %}.</p>
             {% endfor %}
