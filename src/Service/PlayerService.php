@@ -25,7 +25,7 @@ readonly class PlayerService
 
     public function findPlayerByNameInClub(string $name, Club $club): ?Player
     {
-        return $this->playerRepository->findPlayerByNameInClub($name, $club);
+        return $this->playerRepository->findOneBy(['name' => $name, 'club' => $club]);
     }
 
     public function createPlayer(string $name, Club $club, User $creator): Player

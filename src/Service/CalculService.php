@@ -63,7 +63,20 @@ readonly class CalculService
      */
     public function getAlertCounts(): array
     {
-        $counts = $this->playerRepository->countByAlertLevel();
+        $players = $this->playerRepository->findBy(['isDeleted' => false]);
+
+        $counts = [
+            self::ALERT_GREEN => 0,
+            self::ALERT_ORANGE => 0,
+            self::ALERT_RED => 0,
+        ];
+
+        foreach ($players as $player) {
+            $score = $player->getScore();
+            if ($score !== null && isset($counts[$score])) {
+                $counts[$score]++;
+            }
+        }
 
         return [
             'green' => $counts[self::ALERT_GREEN],
