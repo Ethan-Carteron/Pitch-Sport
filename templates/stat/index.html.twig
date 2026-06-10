@@ -16,21 +16,22 @@
 <div class="card athlete-history-card">
   <div class="section-header athlete-history-header">
     <div class="section-title">Historique de charge</div>
+    {% set currentTab = app.request.query.get('tab', 'acwr') %}
     <div class="tabs" id="athlete-chart-tabs">
-      <div class="tab active">ACWR</div>
-      <div class="tab">Distance</div>
-      <div class="tab">Vmax</div>
-      <div class="tab">Accél / Décél</div>
+      <a href="?tab=acwr" class="tab {% if currentTab == 'acwr' %}active{% endif %}" style="text-decoration: none; color: inherit;">ACWR</a>
+      <a href="?tab=vmax" class="tab {% if currentTab == 'vmax' %}active{% endif %}" style="text-decoration: none; color: inherit;">Vmax Drop</a>
+      <a href="?tab=distance" class="tab {% if currentTab == 'distance' %}active{% endif %}" style="text-decoration: none; color: inherit;">Distance</a>
+      <a href="?tab=accel" class="tab {% if currentTab == 'accel' %}active{% endif %}" style="text-decoration: none; color: inherit;">Accél / Décél</a>
     </div>
   </div>
   <div class="athlete-chart-wrapper">
     {% import "stat/_chart_macro.html.twig" as charts %}
 
-    {# Chart ACWR #}
-    {{ charts.bar_chart(acwrHistory, 'acwr', 2.0) }}
-
-    {# Chart Vmax Drop (en %) #}
-    {{ charts.bar_chart(vmaxDropHistory, 'vmax', 20.0) }}
+    {% if currentTab == 'acwr' %}
+        {{ charts.bar_chart(acwrHistory, 'acwr', 2.0) }}
+    {% elseif currentTab == 'vmax' %}
+        {{ charts.bar_chart(vmaxDropHistory, 'vmax', 20.0) }}
+    {% endif %}
   </div>
 </div>
 
