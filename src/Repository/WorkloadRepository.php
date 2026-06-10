@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Player;
 use App\Entity\Workload;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,36 +19,19 @@ class WorkloadRepository extends ServiceEntityRepository
     }
 
     /**
-     * Moyenne de charge (distance + 10*accélération + 8*décélération)
-     * sur les N dernières séances d'un joueur.
+     * @return Workload[]
      */
-    public function averageCharge(Player $player, int $limit, ?\DateTimeInterface $beforeDate = null): ?float
+    public function findRecentWorkloads(Player $player, int $limit, DateTimeInterface $beforeDate): array
     {
-        $qb = $this->createQueryBuilder('w')
-            ->select('w.id')
+        return $this->createQueryBuilder('w')
             ->andWhere('w.player = :player')
             ->andWhere('w.isDeleted = false')
-            ->setParameter('player', $player);
-
-        if ($beforeDate) {
-            $qb->andWhere('w.createdDate <= :date')
-               ->setParameter('date', $beforeDate->format('Y-m-d'));
-        }
-
-        $recentIds = $qb->orderBy('w.createdDate', 'DESC')
+            ->andWhere('w.createdDate <= :date')
+            ->setParameter('player', $player)
+            ->setParameter('date', $beforeDate->format('Y-m-d'))
+            ->orderBy('w.createdDate', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
-            ->getSingleColumnResult();
-
-        if (empty($recentIds)) {
-            return null;
-        }
-
-        return $this->createQueryBuilder('w')
-            ->select('AVG(w.totalDistance + 10 * COALESCE(w.acceleration, 0) + 8 * COALESCE(w.deceleration, 0))')
-            ->andWhere('w.id IN (:ids)')
-            ->setParameter('ids', $recentIds)
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->getResult();
     }
 }

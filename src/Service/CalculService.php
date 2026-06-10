@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Player;
 use App\Repository\PlayerRepository;
 use App\Repository\WorkloadRepository;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 readonly class CalculService
 {
@@ -18,10 +20,34 @@ readonly class CalculService
     ) {
     }
 
-    public function calculAcwr(Player $player, ?\DateTimeInterface $date = null): ?float
+    private function getRecentCharges(Player $player, int $limit, ?DateTimeInterface $date = null): array
     {
-        $acuteLoad = $this->workloadRepository->averageCharge($player, 7, $date);
-        $chronicLoad = $this->workloadRepository->averageCharge($player, 28, $date);
+        $referenceDate = $date ?? new DateTimeImmutable();
+        $workloads = $this->workloadRepository->findRecentWorkloads($player, $limit, $referenceDate);
+        
+        $charges = [];
+        foreach ($workloads as $workload) {
+            $charges[] = $workload->getCharge();
+        }
+
+        return $charges;
+    }
+
+    private function averageCharge(Player $player, int $limit, ?DateTimeInterface $date = null): ?float
+    {
+        $charges = $this->getRecentCharges($player, $limit, $date);
+
+        if (empty($charges)) {
+            return null;
+        }
+
+        return array_sum($charges) / count($charges);
+    }
+
+    public function calculAcwr(Player $player, ?DateTimeInterface $date = null): ?float
+    {
+        $acuteLoad = $this->averageCharge($player, 7, $date);
+        $chronicLoad = $this->averageCharge($player, 28, $date);
 
         if (!$chronicLoad) {
             return null;
@@ -29,6 +55,32 @@ readonly class CalculService
 
         $acwr = $acuteLoad / $chronicLoad;
         return round($acwr, 2);
+    }
+
+    public function calculFosterMonotony(Player $player, ?DateTimeInterface $date = null): ?float
+    {
+        $charges = $this->getRecentCharges($player, 7, $date);
+        $count = count($charges);
+
+        if ($count < 2) {
+            return null;
+        }
+
+        $average = array_sum($charges) / $count;
+        $variance = 0.0;
+
+        foreach ($charges as $charge) {
+            $variance += pow($charge - $average, 2);
+        }
+        $variance /= $count;
+
+        $stdDeviation = sqrt($variance);
+
+        if ($stdDeviation == 0) {
+            return null;
+        }
+
+        return round($average / $stdDeviation, 2);
     }
 
     public function getAcwrHistory(Player $player): array

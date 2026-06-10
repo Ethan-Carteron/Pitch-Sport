@@ -119,4 +119,11 @@ class Workload extends BaseEntity
 
         return $this;
     }
+
+    public function getCharge(): float
+    {
+        return ($this->totalDistance ?? 0) 
+            + 10 * ($this->acceleration ?? 0) 
+            + 8 * ($this->deceleration ?? 0);
+    }
 }
