@@ -24,7 +24,7 @@ readonly class CalculService
     {
         $referenceDate = $date ?? new DateTimeImmutable();
         $workloads = $this->workloadRepository->findRecentWorkloads($player, $limit, $referenceDate);
-        
+
         $charges = [];
         foreach ($workloads as $workload) {
             $charges[] = $workload->getCharge();
@@ -81,6 +81,42 @@ readonly class CalculService
         }
 
         return round($average / $stdDeviation, 2);
+    }
+
+    private function getRecentVmax(Player $player, ?DateTimeInterface $date = null): array
+    {
+        $referenceDate = $date ?? new DateTimeImmutable();
+        $workloads = $this->workloadRepository->findRecentWorkloads($player, 28, $referenceDate);
+
+        $vmaxList = [];
+        foreach ($workloads as $workload) {
+            $vmax = $workload->getMaxSpeed();
+            if ($vmax !== null) {
+                $vmaxList[] = $vmax;
+            }
+        }
+
+        return $vmaxList;
+    }
+
+    public function calculVmaxDrop(Player $player, ?DateTimeInterface $date = null): ?float
+    {
+        $vmaxList = $this->getRecentVmax($player, $date);
+
+        if (empty($vmaxList)) {
+            return null;
+        }
+
+        $lastVmax = $vmaxList[0];
+        $averageVmax = array_sum($vmaxList) / count($vmaxList);
+
+        if ($averageVmax == 0) {
+            return null;
+        }
+
+        $drop = (($averageVmax - $lastVmax) / $averageVmax) * 100;
+
+        return round($drop, 2);
     }
 
     public function getAcwrHistory(Player $player): array
