@@ -101,7 +101,7 @@ readonly class CalculService
 
     public function calculVmaxDrop(Player $player, ?DateTimeInterface $date = null): ?float
     {
-        $vmaxList = $this->getRecentVmax($player, $date);
+        $vmaxList = $this->getRecentVmax($player, 28, $date);
 
         if (empty($vmaxList)) {
             return null;
@@ -117,6 +117,48 @@ readonly class CalculService
         $drop = (($averageVmax - $lastVmax) / $averageVmax) * 100;
 
         return round($drop, 2);
+    }
+
+    public function getVmaxDropHistory(Player $player): array
+    {
+        $workloads = $this->workloadRepository->findBy(
+            ['player' => $player, 'isDeleted' => false],
+            ['createdDate' => 'DESC'],
+            15
+        );
+
+        $history = [];
+        $workloads = array_reverse($workloads);
+
+        foreach ($workloads as $w) {
+            $drop = $this->calculVmaxDrop($player, $w->getCreatedDate());
+            if ($drop !== null) {
+                $history[] = [
+                    'date' => $w->getCreatedDate()->format('d/m'),
+                    'value' => $drop,
+                    'level' => $this->getVmaxDropAlertLevel($drop),
+                ];
+            }
+        }
+
+        return $history;
+    }
+
+    public function getVmaxDropAlertLevel(?float $drop): ?int
+    {
+        if ($drop === null) {
+            return null;
+        }
+
+        if ($drop >= 10) {
+            return self::ALERT_RED;
+        }
+
+        if ($drop >= 5) {
+            return self::ALERT_ORANGE;
+        }
+
+        return self::ALERT_GREEN;
     }
 
     public function getAcwrHistory(Player $player): array
@@ -135,7 +177,7 @@ readonly class CalculService
             if ($acwr !== null) {
                 $history[] = [
                     'date' => $w->getCreatedDate()->format('d/m'),
-                    'acwr' => $acwr,
+                    'value' => $acwr,
                     'level' => $this->getAlertLevel($acwr),
                 ];
             }

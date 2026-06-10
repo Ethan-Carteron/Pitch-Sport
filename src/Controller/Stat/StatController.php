@@ -19,10 +19,12 @@ final class StatController extends AbstractController
         }
 
         $acwrHistory = $calculService->getAcwrHistory($player);
+        $vmaxDropHistory = $calculService->getVmaxDropHistory($player);
 
         return $this->render('stat/index.html.twig', [
             'player' => $player,
             'acwrHistory' => $acwrHistory,
+            'vmaxDropHistory' => $vmaxDropHistory,
         ]);
     }
 }

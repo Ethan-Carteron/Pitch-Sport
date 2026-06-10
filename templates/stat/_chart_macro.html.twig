@@ -1,0 +1,23 @@
+{% macro bar_chart(data, idPrefix, maxValue) %}
+    <style>
+      {% for key, item in data %}
+          .{{ idPrefix }}-bar-{{ key }} { height: {{ (item.value / maxValue) * 100 }}%; }
+      {% endfor %}
+    </style>
+    <div class="css-graph-container" id="{{ idPrefix }}-chart">
+        {% for key, item in data %}
+            {% set barClass = 'bg-vert' %}
+            {% if item.level == 1 %}{% set barClass = 'bg-orange' %}{% endif %}
+            {% if item.level == 2 %}{% set barClass = 'bg-rouge' %}{% endif %}
+            
+            <div class="css-graph-col">
+                <div class="css-graph-bar {{ barClass }} {{ idPrefix }}-bar-{{ key }}">
+                    <span class="css-graph-value">{{ item.value }}</span>
+                </div>
+                <div class="css-graph-label">{{ item.date }}</div>
+            </div>
+        {% else %}
+            <div class="css-graph-empty">Pas assez de données pour afficher l'historique {{ idPrefix|upper }}.</div>
+        {% endfor %}
+    </div>
+{% endmacro %}
