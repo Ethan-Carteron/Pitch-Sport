@@ -10,11 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class StatController extends AbstractController
 {
     #[Route('/stat/{uid}', name: 'app_stat')]
-    public function index
-    (
-        string           $uid,
-        PlayerRepository $playerRepository
-    ): Response
+    public function index(string $uid, PlayerRepository $playerRepository, \App\Service\CalculService $calculService): Response
     {
         $player = $playerRepository->findOneBy(['uid' => $uid]);
 
@@ -22,8 +18,11 @@ final class StatController extends AbstractController
             throw $this->createNotFoundException('Joueur introuvable.');
         }
 
+        $acwrHistory = $calculService->getAcwrHistory($player);
+
         return $this->render('stat/index.html.twig', [
             'player' => $player,
+            'acwrHistory' => $acwrHistory,
         ]);
     }
 }

@@ -21,14 +21,20 @@ class WorkloadRepository extends ServiceEntityRepository
      * Moyenne de charge (distance + 10*accélération + 8*décélération)
      * sur les N dernières séances d'un joueur.
      */
-    public function averageCharge(Player $player, int $limit): ?float
+    public function averageCharge(Player $player, int $limit, ?\DateTimeInterface $beforeDate = null): ?float
     {
-        $recentIds = $this->createQueryBuilder('w')
+        $qb = $this->createQueryBuilder('w')
             ->select('w.id')
             ->andWhere('w.player = :player')
             ->andWhere('w.isDeleted = false')
-            ->setParameter('player', $player)
-            ->orderBy('w.createdDate', 'DESC')
+            ->setParameter('player', $player);
+
+        if ($beforeDate) {
+            $qb->andWhere('w.createdDate <= :date')
+               ->setParameter('date', $beforeDate->format('Y-m-d'));
+        }
+
+        $recentIds = $qb->orderBy('w.createdDate', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getSingleColumnResult();

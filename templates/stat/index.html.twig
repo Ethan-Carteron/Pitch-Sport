@@ -24,7 +24,27 @@
     </div>
   </div>
   <div class="athlete-chart-wrapper">
-    <canvas id="athlete-chart"></canvas>
+    <style>
+      {% for key, item in acwrHistory %}
+          .acwr-bar-{{ key }} { height: {{ (item.acwr / 2.0) * 100 }}%; }
+      {% endfor %}
+    </style>
+    <div class="css-graph-container">
+        {% for key, item in acwrHistory %}
+            {% set barClass = 'bg-vert' %}
+            {% if item.level == 1 %}{% set barClass = 'bg-orange' %}{% endif %}
+            {% if item.level == 2 %}{% set barClass = 'bg-rouge' %}{% endif %}
+            
+            <div class="css-graph-col">
+                <div class="css-graph-bar {{ barClass }} acwr-bar-{{ key }}">
+                    <span class="css-graph-value">{{ item.acwr }}</span>
+                </div>
+                <div class="css-graph-label">{{ item.date }}</div>
+            </div>
+        {% else %}
+            <div class="css-graph-empty">Pas assez de données pour afficher l'historique ACWR.</div>
+        {% endfor %}
+    </div>
   </div>
 </div>
 

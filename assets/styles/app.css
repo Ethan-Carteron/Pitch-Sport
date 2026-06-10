@@ -904,3 +904,47 @@ select.input option {
 .athlete-sessions-title {
     margin-bottom: var(--s4);
 }
+
+/* Pure CSS Graph */
+.css-graph-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: 20px 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+.css-graph-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    flex: 1;
+    gap: 8px;
+}
+.css-graph-bar {
+    width: 20px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+}
+.css-graph-label {
+    font-size: 11px;
+    color: #64748b;
+}
+.css-graph-value {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: bold;
+}
+.bg-vert { background-color: #10b981; }
+.bg-orange { background-color: #f59e0b; }
+.bg-rouge { background-color: #ef4444; }
+.css-graph-empty {
+    margin: auto;
+    color: #64748b;
+}

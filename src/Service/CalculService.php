@@ -18,10 +18,10 @@ readonly class CalculService
     ) {
     }
 
-    public function calculAcwr(Player $player): ?float
+    public function calculAcwr(Player $player, ?\DateTimeInterface $date = null): ?float
     {
-        $acuteLoad = $this->workloadRepository->averageCharge($player, 7);
-        $chronicLoad = $this->workloadRepository->averageCharge($player, 28);
+        $acuteLoad = $this->workloadRepository->averageCharge($player, 7, $date);
+        $chronicLoad = $this->workloadRepository->averageCharge($player, 28, $date);
 
         if (!$chronicLoad) {
             return null;
@@ -29,6 +29,31 @@ readonly class CalculService
 
         $acwr = $acuteLoad / $chronicLoad;
         return round($acwr, 2);
+    }
+
+    public function getAcwrHistory(Player $player): array
+    {
+        $workloads = $this->workloadRepository->findBy(
+            ['player' => $player, 'isDeleted' => false],
+            ['createdDate' => 'DESC'],
+            15
+        );
+
+        $history = [];
+        $workloads = array_reverse($workloads);
+
+        foreach ($workloads as $w) {
+            $acwr = $this->calculAcwr($player, $w->getCreatedDate());
+            if ($acwr !== null) {
+                $history[] = [
+                    'date' => $w->getCreatedDate()->format('d/m'),
+                    'acwr' => $acwr,
+                    'level' => $this->getAlertLevel($acwr),
+                ];
+            }
+        }
+
+        return $history;
     }
 
     public function getAlertLevel(?float $acwr): ?int
