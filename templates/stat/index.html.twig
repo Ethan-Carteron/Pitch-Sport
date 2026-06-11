@@ -33,6 +33,9 @@
     {% elseif currentTab == 'vmax' %}
         {# Chart Vmax Drop (en %) #}
         {{ charts.bar_chart(vmaxDropHistory, 'vmax', 20.0) }}
+    {% elseif currentTab == 'distance' %}
+        {# Chart Distance #}
+        {{ charts.bar_chart(distanceHistory, 'distance', 15000) }}
     {% elseif currentTab == 'foster' %}
         {# Chart Monotonie de Foster #}
         {{ charts.bar_chart(fosterHistory, 'foster', 3.0) }}

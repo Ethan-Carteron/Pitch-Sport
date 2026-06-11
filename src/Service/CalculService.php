@@ -203,6 +203,31 @@ readonly class CalculService
         return self::ALERT_GREEN;
     }
 
+    public function getDistanceHistory(Player $player): array
+    {
+        $workloads = $this->workloadRepository->findBy(
+            ['player' => $player, 'isDeleted' => false],
+            ['createdDate' => 'DESC'],
+            15
+        );
+
+        $history = [];
+        $workloads = array_reverse($workloads);
+
+        foreach ($workloads as $w) {
+            $distance = $w->getTotalDistance();
+            if ($distance !== null) {
+                $history[] = [
+                    'date' => $w->getCreatedDate()->format('d/m'),
+                    'value' => $distance,
+                    'level' => self::ALERT_GREEN,
+                ];
+            }
+        }
+
+        return $history;
+    }
+
     public function getAcwrHistory(Player $player): array
     {
         $workloads = $this->workloadRepository->findBy(
