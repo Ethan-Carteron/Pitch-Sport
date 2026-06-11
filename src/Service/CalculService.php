@@ -83,10 +83,52 @@ readonly class CalculService
         return round($average / $stdDeviation, 2);
     }
 
-    private function getRecentVmax(Player $player, ?DateTimeInterface $date = null): array
+    public function getFosterHistory(Player $player): array
+    {
+        $workloads = $this->workloadRepository->findBy(
+            ['player' => $player, 'isDeleted' => false],
+            ['createdDate' => 'DESC'],
+            15
+        );
+
+        $history = [];
+        $workloads = array_reverse($workloads);
+
+        foreach ($workloads as $w) {
+            $foster = $this->calculFosterMonotony($player, $w->getCreatedDate());
+            if ($foster !== null) {
+                $history[] = [
+                    'date' => $w->getCreatedDate()->format('d/m'),
+                    'value' => $foster,
+                    'level' => $this->getFosterAlertLevel($foster),
+                ];
+            }
+        }
+
+        return $history;
+    }
+
+    public function getFosterAlertLevel(?float $foster): ?int
+    {
+        if ($foster === null) {
+            return null;
+        }
+
+        if ($foster >= 2.5) {
+            return self::ALERT_RED;
+        }
+
+        if ($foster >= 2.0) {
+            return self::ALERT_ORANGE;
+        }
+
+        return self::ALERT_GREEN;
+    }
+
+    private function getRecentVmax(Player $player, int $limit, ?DateTimeInterface $date = null): array
     {
         $referenceDate = $date ?? new DateTimeImmutable();
-        $workloads = $this->workloadRepository->findRecentWorkloads($player, 28, $referenceDate);
+        $workloads = $this->workloadRepository->findRecentWorkloads($player, $limit, $referenceDate);
 
         $vmaxList = [];
         foreach ($workloads as $workload) {
