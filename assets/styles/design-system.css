@@ -633,6 +633,7 @@ input, textarea, select {
     color: var(--text-sub);
     cursor: pointer;
     transition: all var(--t-fast);
+    text-decoration: none;
 }
 
 .tab.active {

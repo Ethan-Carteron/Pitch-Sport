@@ -320,6 +320,7 @@ select.input option {
     cursor: pointer;
     margin-bottom: var(--s5);
     transition: color var(--t-fast);
+    text-decoration: none;
 }
 
 .athlete-back:hover {
