@@ -32,7 +32,7 @@
         {{ charts.bar_chart(acwrHistory, 'acwr', 2.0) }}
     {% elseif currentTab == 'vmax' %}
         {# Chart Vmax Drop (en %) #}
-        {{ charts.bar_chart(vmaxDropHistory, 'vmax', 20.0) }}
+        {{ charts.variation_chart(vmaxDropHistory, 'vmax', 20.0) }}
     {% elseif currentTab == 'distance' %}
         {# Chart Distance #}
         {{ charts.bar_chart(distanceHistory, 'distance', 15000) }}

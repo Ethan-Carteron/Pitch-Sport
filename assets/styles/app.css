@@ -949,3 +949,66 @@ select.input option {
     margin: auto;
     color: #64748b;
 }
+
+.css-graph-variation-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: 20px 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+    position: relative;
+}
+.css-graph-variation-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    flex: 1;
+    z-index: 1;
+}
+.css-graph-variation-bar-wrapper {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+.css-graph-variation-bar-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #cbd5e1;
+    z-index: 0;
+}
+.css-graph-variation-bar {
+    width: 20px;
+    position: absolute;
+    z-index: 1;
+}
+.css-graph-variation-bar.positive {
+    bottom: 50%;
+    border-radius: 4px 4px 0 0;
+}
+.css-graph-variation-bar.negative {
+    top: 50%;
+    border-radius: 0 0 4px 4px;
+}
+.css-graph-variation-bar .css-graph-value {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: bold;
+}
+.css-graph-variation-bar .css-graph-value.top {
+    top: -18px;
+}
+.css-graph-variation-bar .css-graph-value.bottom {
+    bottom: -18px;
+}
