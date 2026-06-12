@@ -192,11 +192,13 @@ readonly class CalculService
             return null;
         }
 
-        if ($drop >= 10) {
+        $absDrop = abs($drop);
+
+        if ($absDrop >= 15) {
             return self::ALERT_RED;
         }
 
-        if ($drop >= 5) {
+        if ($absDrop >= 5) {
             return self::ALERT_ORANGE;
         }
 
