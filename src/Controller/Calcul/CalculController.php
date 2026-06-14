@@ -27,8 +27,9 @@ final class CalculController extends AbstractController
         ];
 
         foreach ($activePlayers as $player) {
-            $calculService->updatePlayerAlertLevel($player);
-            $alertCounts[$player->getScore()]++;
+            $riskScore = $calculService->updatePlayerAlertLevel($player);
+            $level = $calculService->getRiskAlertLevel($riskScore);
+            $alertCounts[$level]++;
         }
         $entityManager->flush();
 

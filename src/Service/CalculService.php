@@ -278,14 +278,65 @@ readonly class CalculService
         return self::ALERT_GREEN;
     }
 
-    public function updatePlayerAlertLevel(Player $player): ?float
+    /**
+     * Calcule un score de risque de 0 (aucun risque) à 100 (risque maximal).
+     * Chaque métrique contribue un sous-score de 0 à 33.
+     */
+    public function calculRiskScore(Player $player): int
     {
         $acwr = $this->calculAcwr($player);
-        $alertLevel = $this->getAlertLevel($acwr);
+        $vmaxDrop = $this->calculVmaxDrop($player);
+        $foster = $this->calculFosterMonotony($player);
 
-        $player->setScore($alertLevel ?? self::ALERT_GREEN);
+        $subScores = [];
 
-        return $acwr;
+        // ACWR : idéal à 1.0, risque max à 0.0 ou 2.0
+        if ($acwr !== null) {
+            $subScores[] = min(33, 33 * abs($acwr - 1.0) / 1.0);
+        }
+
+        // Vmax Drop : idéal à 0%, risque max à 30%
+        if ($vmaxDrop !== null) {
+            $subScores[] = min(33, 33 * abs($vmaxDrop) / 30);
+        }
+
+        // Monotonie : idéale à 1.0, risque max à 5.0
+        if ($foster !== null) {
+            $subScores[] = min(33, 33 * max(0, $foster - 1.0) / 4.0);
+        }
+
+        if (empty($subScores)) {
+            return 0;
+        }
+
+        // Normaliser sur 100 en fonction du nombre de métriques disponibles
+        $score = (array_sum($subScores) / count($subScores)) * 3;
+
+        return (int) min(100, max(0, round($score)));
+    }
+
+    public function updatePlayerAlertLevel(Player $player): int
+    {
+        $riskScore = $this->calculRiskScore($player);
+        $player->setScore($riskScore);
+
+        return $riskScore;
+    }
+
+    /**
+     * Retourne le niveau d'alerte (0=vert, 1=orange, 2=rouge) à partir du score de risque.
+     */
+    public function getRiskAlertLevel(int $riskScore): int
+    {
+        if ($riskScore > 60) {
+            return self::ALERT_RED;
+        }
+
+        if ($riskScore > 30) {
+            return self::ALERT_ORANGE;
+        }
+
+        return self::ALERT_GREEN;
     }
 
     /**
@@ -296,22 +347,26 @@ readonly class CalculService
         $players = $this->playerRepository->findBy(['isDeleted' => false]);
 
         $counts = [
-            self::ALERT_GREEN => 0,
-            self::ALERT_ORANGE => 0,
-            self::ALERT_RED => 0,
+            'green' => 0,
+            'orange' => 0,
+            'red' => 0,
         ];
 
         foreach ($players as $player) {
             $score = $player->getScore();
-            if ($score !== null && isset($counts[$score])) {
-                $counts[$score]++;
+            if ($score === null) {
+                $counts['green']++;
+                continue;
             }
+
+            $level = $this->getRiskAlertLevel($score);
+            match ($level) {
+                self::ALERT_RED => $counts['red']++,
+                self::ALERT_ORANGE => $counts['orange']++,
+                default => $counts['green']++,
+            };
         }
 
-        return [
-            'green' => $counts[self::ALERT_GREEN],
-            'orange' => $counts[self::ALERT_ORANGE],
-            'red' => $counts[self::ALERT_RED],
-        ];
+        return $counts;
     }
 }

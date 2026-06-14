@@ -81,7 +81,7 @@
         <div class="athletes-list" id="athletes-list">
             {% set filteredPlayers = [] %}
             {% for player in activePlayers %}
-                {% set colorClass = player.score == 2 ? 'rouge' : (player.score == 1 ? 'orange' : 'vert') %}
+                {% set colorClass = player.score > 60 ? 'rouge' : (player.score > 30 ? 'orange' : 'vert') %}
                 {% if currentFilter == 'all' or colorClass == currentFilter %}
                     {% set filteredPlayers = filteredPlayers|merge([{player: player, colorClass: colorClass}]) %}
                 {% endif %}

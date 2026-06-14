@@ -82,5 +82,21 @@
 
   </div>
 </div>
+
+{% if advices is not empty %}
+<div class="card">
+  <div class="section-title">Conseils</div>
+  <div class="advices-list">
+    {% for advice in advices %}
+      {% set adviceColor = advice.level == 2 ? 'rouge' : (advice.level == 1 ? 'orange' : 'vert') %}
+      <div class="advice-row {{ adviceColor }}">
+        <span class="advice-metric">{{ advice.metric|upper }}</span>
+        <span class="advice-message">{{ advice.message }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
 </div>
 {% endblock %}

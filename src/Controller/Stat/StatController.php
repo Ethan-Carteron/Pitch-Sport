@@ -10,7 +10,12 @@ use Symfony\Component\Routing\Attribute\Route;
 final class StatController extends AbstractController
 {
     #[Route('/stat/{uid}', name: 'app_stat')]
-    public function index(string $uid, PlayerRepository $playerRepository, \App\Service\CalculService $calculService): Response
+    public function index(
+        string $uid,
+        PlayerRepository $playerRepository,
+        \App\Service\CalculService $calculService,
+        \App\Service\AlertAdviceService $alertAdviceService
+    ): Response
     {
         $player = $playerRepository->findOneBy(['uid' => $uid]);
 
@@ -32,6 +37,10 @@ final class StatController extends AbstractController
         $currentFoster = $calculService->calculFosterMonotony($player);
         $currentFosterLevel = $calculService->getFosterAlertLevel($currentFoster);
 
+        $riskScore = $calculService->calculRiskScore($player);
+        $riskLevel = $calculService->getRiskAlertLevel($riskScore);
+        $advices = $alertAdviceService->getAdvices($currentAcwr, $currentVmaxDrop, $currentFoster);
+
         return $this->render('stat/index.html.twig', [
             'player' => $player,
             'acwrHistory' => $acwrHistory,
@@ -44,6 +53,9 @@ final class StatController extends AbstractController
             'currentVmaxLevel' => $currentVmaxLevel,
             'currentFoster' => $currentFoster,
             'currentFosterLevel' => $currentFosterLevel,
+            'riskScore' => $riskScore,
+            'riskLevel' => $riskLevel,
+            'advices' => $advices,
         ]);
     }
 }
