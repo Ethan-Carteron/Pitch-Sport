@@ -45,7 +45,42 @@
 
 <div class="card">
   <div class="section-title athlete-sessions-title">Dernières séances</div>
-  <div id="athlete-sessions"></div>
+  <div id="athlete-sessions" class="grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+    
+    {# ACWR Card #}
+    {% set acwrColor = '#10b981' %}
+    {% if currentAcwrLevel == 1 %}{% set acwrColor = '#f59e0b' %}{% endif %}
+    {% if currentAcwrLevel == 2 %}{% set acwrColor = '#ef4444' %}{% endif %}
+    <div class="stat-box" style="padding: 16px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 500;">ACWR</div>
+        <div style="font-size: 24px; font-weight: bold; color: {{ acwrColor }};">
+            {{ currentAcwr !== null ? currentAcwr : '-' }}
+        </div>
+    </div>
+
+    {# VMAX Drop Card #}
+    {% set vmaxColor = '#10b981' %}
+    {% if currentVmaxLevel == 1 %}{% set vmaxColor = '#f59e0b' %}{% endif %}
+    {% if currentVmaxLevel == 2 %}{% set vmaxColor = '#ef4444' %}{% endif %}
+    <div class="stat-box" style="padding: 16px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 500;">VMAX Variation</div>
+        <div style="font-size: 24px; font-weight: bold; color: {{ vmaxColor }};">
+            {{ currentVmaxDrop !== null ? currentVmaxDrop ~ '%' : '-' }}
+        </div>
+    </div>
+
+    {# Foster Card #}
+    {% set fosterColor = '#10b981' %}
+    {% if currentFosterLevel == 1 %}{% set fosterColor = '#f59e0b' %}{% endif %}
+    {% if currentFosterLevel == 2 %}{% set fosterColor = '#ef4444' %}{% endif %}
+    <div class="stat-box" style="padding: 16px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
+        <div style="font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 500;">Monotonie</div>
+        <div style="font-size: 24px; font-weight: bold; color: {{ fosterColor }};">
+            {{ currentFoster !== null ? currentFoster : '-' }}
+        </div>
+    </div>
+
+  </div>
 </div>
 </div>
 {% endblock %}

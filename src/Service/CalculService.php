@@ -60,27 +60,32 @@ readonly class CalculService
     public function calculFosterMonotony(Player $player, ?DateTimeInterface $date = null): ?float
     {
         $charges = $this->getRecentCharges($player, 7, $date);
-        $count = count($charges);
+        $nombreDeSeances = count($charges);
 
-        if ($count < 2) {
+        if ($nombreDeSeances < 2) {
             return null;
         }
 
-        $average = array_sum($charges) / $count;
-        $variance = 0.0;
+        // Étape 1 : Calcul de la charge moyenne de la semaine
+        $sommeDesCharges = array_sum($charges);
+        $chargeMoyenne = $sommeDesCharges / $nombreDeSeances;
 
+        // Étape 2 : Calcul de l'écart type des charges
+        $sommeDesEcartsAuCarre = 0.0;
         foreach ($charges as $charge) {
-            $variance += pow($charge - $average, 2);
+            $sommeDesEcartsAuCarre += pow($charge - $chargeMoyenne, 2);
         }
-        $variance /= $count;
+        $variance = $sommeDesEcartsAuCarre / $nombreDeSeances;
+        $ecartType = sqrt($variance);
 
-        $stdDeviation = sqrt($variance);
-
-        if ($stdDeviation == 0) {
-            return null;
+        // Étape 3 : Calcul de la monotonie (Moyenne divisée par l'écart type)
+        if ($ecartType == 0) {
+            return null; // Éviter la division par zéro
         }
 
-        return round($average / $stdDeviation, 2);
+        $monotonie = $chargeMoyenne / $ecartType;
+
+        return round($monotonie, 2);
     }
 
     public function getFosterHistory(Player $player): array
@@ -143,20 +148,21 @@ readonly class CalculService
 
     public function calculVmaxDrop(Player $player, ?DateTimeInterface $date = null): ?float
     {
-        $vmaxList = $this->getRecentVmax($player, 28, $date);
+        $vmaxList28 = $this->getRecentVmax($player, 28, $date);
+        $vmaxList7 = $this->getRecentVmax($player, 7, $date);
 
-        if (empty($vmaxList)) {
+        if (empty($vmaxList28) || empty($vmaxList7)) {
             return null;
         }
 
-        $lastVmax = $vmaxList[0];
-        $averageVmax = array_sum($vmaxList) / count($vmaxList);
+        $average7 = array_sum($vmaxList7) / count($vmaxList7);
+        $average28 = array_sum($vmaxList28) / count($vmaxList28);
 
-        if ($averageVmax == 0) {
+        if ($average28 == 0) {
             return null;
         }
 
-        $drop = (($averageVmax - $lastVmax) / $averageVmax) * 100;
+        $drop = (($average28 - $average7) / $average28) * 100;
 
         return round($drop, 2);
     }

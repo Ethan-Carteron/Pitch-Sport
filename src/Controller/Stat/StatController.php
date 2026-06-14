@@ -23,12 +23,27 @@ final class StatController extends AbstractController
         $distanceHistory = $calculService->getDistanceHistory($player);
         $fosterHistory = $calculService->getFosterHistory($player);
 
+        $currentAcwr = $calculService->calculAcwr($player);
+        $currentAcwrLevel = $calculService->getAlertLevel($currentAcwr);
+
+        $currentVmaxDrop = $calculService->calculVmaxDrop($player);
+        $currentVmaxLevel = $calculService->getVmaxDropAlertLevel($currentVmaxDrop);
+
+        $currentFoster = $calculService->calculFosterMonotony($player);
+        $currentFosterLevel = $calculService->getFosterAlertLevel($currentFoster);
+
         return $this->render('stat/index.html.twig', [
             'player' => $player,
             'acwrHistory' => $acwrHistory,
             'vmaxDropHistory' => $vmaxDropHistory,
             'distanceHistory' => $distanceHistory,
             'fosterHistory' => $fosterHistory,
+            'currentAcwr' => $currentAcwr,
+            'currentAcwrLevel' => $currentAcwrLevel,
+            'currentVmaxDrop' => $currentVmaxDrop,
+            'currentVmaxLevel' => $currentVmaxLevel,
+            'currentFoster' => $currentFoster,
+            'currentFosterLevel' => $currentFosterLevel,
         ]);
     }
 }
