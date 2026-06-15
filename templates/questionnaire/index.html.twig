@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}État de forme - PitchSport{% endblock %}
+
+{% block body %}
+<div style="max-width: 600px; margin: 0 auto; padding: var(--s4);">
+    <div class="page active" id="page-wellness">
+        <div class="page-header" style="text-align: center; margin-bottom: var(--s6);">
+            <h1 class="page-title">Bonjour {{ player.name }}</h1>
+            <p class="page-subtitle">Questionnaire du jour — 3 questions, 30 secondes.</p>
+        </div>
+
+        <div class="wellness-container">
+            {% if submitted %}
+                <!-- Confirmation -->
+                <div id="wellness-confirm" class="wellness-confirm" style="display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--bg-surface); padding: var(--s6); border-radius: var(--r-lg); border: 1px solid var(--border);">
+                    <div class="wellness-confirm-icon" style="color: #10b981; margin-bottom: var(--s4);">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="wellness-confirm-text" style="font-size: 20px; font-weight: 800; margin-bottom: var(--s2);">État de forme enregistré</div>
+                    <div class="wellness-confirm-sub" style="color: var(--text-sub);">Merci pour tes réponses. Bonne séance !</div>
+                </div>
+            {% else %}
+                <!-- Questions -->
+                <form id="wellness-form" method="POST" action="{{ path('app_questionnaire_wellness', {uid: player.uid}) }}">
+                    <div class="wellness-questions" id="wellness-questions" style="display: flex; flex-direction: column; gap: var(--s5);">
+                        
+                        <!-- Question Fatigue -->
+                        <div class="card">
+                            <label class="input-label" style="font-size: 16px; margin-bottom: var(--s3); display: block;">1. Évalue ta fatigue (1 = Très fatigué, 5 = En pleine forme)</label>
+                            <div style="display: flex; justify-content: space-between; gap: var(--s2);">
+                                {% for i in 1..5 %}
+                                    <label style="flex: 1; text-align: center; cursor: pointer;">
+                                        <input type="radio" name="fatigue" value="{{ i }}" required style="display: none;">
+                                        <div class="btn btn-secondary btn-full" style="padding: var(--s3) 0;" onclick="this.parentElement.parentElement.querySelectorAll('.btn').forEach(b => b.classList.remove('btn-primary')); this.classList.add('btn-primary');">
+                                            {{ i }}
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Question Sommeil -->
+                        <div class="card">
+                            <label class="input-label" style="font-size: 16px; margin-bottom: var(--s3); display: block;">2. Qualité du sommeil (1 = Très mauvaise, 5 = Excellente)</label>
+                            <div style="display: flex; justify-content: space-between; gap: var(--s2);">
+                                {% for i in 1..5 %}
+                                    <label style="flex: 1; text-align: center; cursor: pointer;">
+                                        <input type="radio" name="sleep" value="{{ i }}" required style="display: none;">
+                                        <div class="btn btn-secondary btn-full" style="padding: var(--s3) 0;" onclick="this.parentElement.parentElement.querySelectorAll('.btn').forEach(b => b.classList.remove('btn-primary')); this.classList.add('btn-primary');">
+                                            {{ i }}
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Question Stress -->
+                        <div class="card">
+                            <label class="input-label" style="font-size: 16px; margin-bottom: var(--s3); display: block;">3. Niveau de stress (1 = Très stressé, 5 = Très détendu)</label>
+                            <div style="display: flex; justify-content: space-between; gap: var(--s2);">
+                                {% for i in 1..5 %}
+                                    <label style="flex: 1; text-align: center; cursor: pointer;">
+                                        <input type="radio" name="stress" value="{{ i }}" required style="display: none;">
+                                        <div class="btn btn-secondary btn-full" style="padding: var(--s3) 0;" onclick="this.parentElement.parentElement.querySelectorAll('.btn').forEach(b => b.classList.remove('btn-primary')); this.classList.add('btn-primary');">
+                                            {{ i }}
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" style="margin-top: var(--s5); height: 50px; font-size: 16px;">
+                        Enregistrer mon état de forme
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    body { background-color: var(--bg-root); }
+    input[type=radio]:checked + .btn {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+</style>
+{% endblock %}
