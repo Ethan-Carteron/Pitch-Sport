@@ -1,4 +1,12 @@
-{% macro bar_chart(data, idPrefix, maxValue) %}
+{% macro bar_chart(data, idPrefix) %}
+    {% set computedMax = 0 %}
+    {% for item in data %}
+        {% if item.value > computedMax %}
+            {% set computedMax = item.value %}
+        {% endif %}
+    {% endfor %}
+    {% set maxValue = computedMax > 0 ? computedMax * 1.1 : 1 %}
+
     <style>
       {% for key, item in data %}
           .{{ idPrefix }}-bar-{{ key }} { height: {{ (item.value / maxValue) * 100 }}%; }
@@ -22,7 +30,15 @@
     </div>
 {% endmacro %}
 
-{% macro variation_chart(data, idPrefix, maxValue) %}
+{% macro variation_chart(data, idPrefix) %}
+    {% set computedMax = 0 %}
+    {% for item in data %}
+        {% if item.value|abs > computedMax %}
+            {% set computedMax = item.value|abs %}
+        {% endif %}
+    {% endfor %}
+    {% set maxValue = computedMax > 0 ? computedMax * 1.1 : 1 %}
+
     <style>
       {% for key, item in data %}
           {% set heightPct = (item.value|abs / maxValue) * 50 %}

@@ -29,16 +29,16 @@
 
     {% if currentTab == 'acwr' %}
         {# Chart ACWR #}
-        {{ charts.bar_chart(acwrHistory, 'acwr', 2.0) }}
+        {{ charts.bar_chart(acwrHistory, 'acwr') }}
     {% elseif currentTab == 'vmax' %}
         {# Chart Vmax Drop (en %) #}
-        {{ charts.variation_chart(vmaxDropHistory, 'vmax', 20.0) }}
+        {{ charts.variation_chart(vmaxDropHistory, 'vmax') }}
     {% elseif currentTab == 'distance' %}
         {# Chart Distance #}
-        {{ charts.bar_chart(distanceHistory, 'distance', 15000) }}
+        {{ charts.bar_chart(distanceHistory, 'distance') }}
     {% elseif currentTab == 'foster' %}
         {# Chart Monotonie de Foster #}
-        {{ charts.bar_chart(fosterHistory, 'foster', 3.0) }}
+        {{ charts.bar_chart(fosterHistory, 'foster') }}
     {% endif %}
   </div>
 </div>
