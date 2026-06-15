@@ -41,6 +41,9 @@ class Player extends BaseEntity
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $uid = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $phoneNumber = null;
+
     public function __construct()
     {
         $this->wellnessQuestions = new ArrayCollection();
@@ -157,6 +160,18 @@ class Player extends BaseEntity
     public function setUid(?string $uid): static
     {
         $this->uid = $uid;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): static
+    {
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
