@@ -44,6 +44,9 @@ class Player extends BaseEntity
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phoneNumber = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telegramChatId = null;
+
     public function __construct()
     {
         $this->wellnessQuestions = new ArrayCollection();
@@ -172,6 +175,18 @@ class Player extends BaseEntity
     public function setPhoneNumber(?string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getTelegramChatId(): ?string
+    {
+        return $this->telegramChatId;
+    }
+
+    public function setTelegramChatId(?string $telegramChatId): static
+    {
+        $this->telegramChatId = $telegramChatId;
 
         return $this;
     }

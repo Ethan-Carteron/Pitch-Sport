@@ -19,7 +19,15 @@
         {% endfor %}
 
         <div class="card" style="margin-bottom: var(--s5)">
-            <div class="section-title" style="margin-bottom: var(--s4)">Effectif actif</div>
+            <div class="section-title" style="margin-bottom: var(--s4); display: flex; justify-content: space-between; align-items: center;">
+                <span>Effectif actif</span>
+                <form action="{{ path('app_team_manager_telegram_send') }}" method="POST">
+                    <button type="submit" class="btn btn-primary" style="background-color: #0088cc; border-color: #0088cc;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        Tout envoyer via Telegram
+                    </button>
+                </form>
+            </div>
             
             <div style="display: flex; flex-direction: column; gap: var(--s4);">
                 {% for player in activePlayers %}
@@ -29,6 +37,11 @@
                         <div style="display: flex; align-items: center; gap: var(--s4); flex: 1; min-width: 200px;">
                             <div class="athlete-row-dot"></div>
                             <div class="athlete-row-name">{{ player.name }}</div>
+                            {% if player.telegramChatId %}
+                                <span class="badge" style="background-color: #0088cc; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">Telegram lié</span>
+                            {% else %}
+                                <span class="badge" style="background-color: var(--bg-hover); color: var(--text-sub); padding: 2px 6px; border-radius: 4px; font-size: 10px;">En attente de liaison</span>
+                            {% endif %}
                         </div>
                         
                         <div style="display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap;">

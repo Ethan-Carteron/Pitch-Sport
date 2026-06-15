@@ -51,4 +51,37 @@ final class TeamManagerController extends AbstractController
 
         return $this->redirectToRoute('app_team_manager');
     }
+
+    #[Route('/team-manager/send-telegram', name: 'app_team_manager_telegram_send', methods: ['POST'])]
+    public function sendTelegram(
+        PlayerService $playerService,
+        \Symfony\Component\Notifier\ChatterInterface $chatter,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
+        $activePlayers = $playerService->findActivePlayers();
+        $count = 0;
+
+        foreach ($activePlayers as $player) {
+            if ($player->getTelegramChatId()) {
+                $questionnaireUrl = $urlGenerator->generate('app_questionnaire_wellness', ['uid' => $player->getUid()], UrlGeneratorInterface::ABSOLUTE_URL);
+                
+                $message = new \Symfony\Component\Notifier\Message\ChatMessage(
+                    "Bonjour {$player->getName()}, voici ton questionnaire de forme du jour : {$questionnaireUrl}"
+                );
+                $message->transport('telegram');
+                $message->getOptions()->recipientId($player->getTelegramChatId());
+                
+                try {
+                    $chatter->send($message);
+                    $count++;
+                } catch (\Exception $e) {
+                    // Ignore errors for individual players to not break the loop
+                }
+            }
+        }
+
+        $this->addFlash('success', "Questionnaires envoyés à {$count} joueuse(s) via Telegram.");
+
+        return $this->redirectToRoute('app_team_manager');
+    }
 }

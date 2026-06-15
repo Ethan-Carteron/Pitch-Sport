@@ -8,6 +8,7 @@
     "require": {
         "php": ">=8.5",
         "ext-ctype": "*",
+        "ext-http": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.18.2",
         "doctrine/doctrine-migrations-bundle": "^3.7",
@@ -22,16 +23,17 @@
         "symfony/form": "7.4.*",
         "symfony/framework-bundle": "7.4.*",
         "symfony/mailer": "7.4.*",
+        "symfony/notifier": "7.4.*",
         "symfony/runtime": "7.4.*",
         "symfony/security-bundle": "7.4.*",
+        "symfony/telegram-notifier": "7.4.*",
         "symfony/twig-bundle": "7.4.*",
         "symfony/uid": "7.4.*",
         "symfony/validator": "7.4.*",
         "symfony/yaml": "7.4.*",
         "symfonycasts/verify-email-bundle": "^1.18",
         "twig/extra-bundle": "^2.12|^3.24",
-        "twig/twig": "^2.12|^3.27.1",
-        "ext-http": "*"
+        "twig/twig": "^2.12|^3.27.1"
     },
     "config": {
         "allow-plugins": {
