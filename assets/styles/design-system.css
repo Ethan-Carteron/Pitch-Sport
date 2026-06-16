@@ -12,16 +12,17 @@
 
 :root {
     /* Couleurs */
-    --red: #c61927;
-    --red-dim: rgba(198, 25, 39, 0.12);
-    --red-glow: rgba(198, 25, 39, 0.25);
+    --red: #e63946;
+    --red-text: #ef4444; /* Accessible text color */
+    --red-dim: rgba(230, 57, 70, 0.12);
+    --red-glow: rgba(230, 57, 70, 0.25);
 
     --green: #10b981;
     --green-dim: rgba(16, 185, 129, 0.12);
     --orange: #f59e0b;
     --orange-dim: rgba(245, 158, 11, 0.12);
-    --blue: #3b82f6;
-    --blue-dim: rgba(59, 130, 246, 0.12);
+    --blue: #60a5fa; /* WCAG AA */
+    --blue-dim: rgba(96, 165, 250, 0.12);
 
     --bg: #08080b;
     --bg-surface: #111116;
@@ -32,8 +33,8 @@
     --border-light: #2a2a36;
 
     --text: #f0f0f6;
-    --text-sub: #7878a0;
-    --text-dim: #3c3c54;
+    --text-sub: #9b9bbd; /* WCAG AA */
+    --text-dim: #7a7a9c; /* WCAG AA */
 
     /* Typographie */
     --font-title: 'Anton', sans-serif;
@@ -176,7 +177,7 @@ input, textarea, select {
 
 .nav-item.active {
     background: var(--red-dim);
-    color: var(--red);
+    color: var(--red-text);
 }
 
 .nav-item svg {
@@ -365,18 +366,18 @@ input, textarea, select {
 }
 
 .badge-rouge {
-    background: rgba(198, 25, 39, 0.15);
-    color: #e8384a;
+    background: var(--red-dim);
+    color: var(--red-text);
 }
 
 .badge-orange {
-    background: rgba(245, 158, 11, 0.15);
-    color: #f59e0b;
+    background: var(--orange-dim);
+    color: var(--orange);
 }
 
 .badge-vert {
-    background: rgba(16, 185, 129, 0.15);
-    color: #10b981;
+    background: var(--green-dim);
+    color: var(--green);
 }
 
 .badge-neutral {
@@ -391,17 +392,17 @@ input, textarea, select {
 }
 
 .badge-rouge .badge-dot {
-    background: #e8384a;
-    box-shadow: 0 0 6px rgba(232, 56, 74, 0.6);
+    background: var(--red-text);
+    box-shadow: 0 0 6px var(--red-glow);
 }
 
 .badge-orange .badge-dot {
-    background: #f59e0b;
+    background: var(--orange);
     box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
 }
 
 .badge-vert .badge-dot {
-    background: #10b981;
+    background: var(--green);
     box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
 }
 
@@ -428,7 +429,7 @@ input, textarea, select {
 }
 
 .btn-primary:hover {
-    background: #a81522;
+    background: #b91c1c;
     box-shadow: 0 4px 16px var(--red-glow);
 }
 
@@ -566,15 +567,15 @@ input, textarea, select {
 }
 
 .metric-value.rouge {
-    color: #e8384a;
+    color: var(--red-text);
 }
 
 .metric-value.orange {
-    color: #f59e0b;
+    color: var(--orange);
 }
 
 .metric-value.vert {
-    color: #10b981;
+    color: var(--green);
 }
 
 .metric-value.neutral {
@@ -601,9 +602,9 @@ input, textarea, select {
 }
 
 .alert-banner.rouge {
-    background: rgba(198, 25, 39, 0.1);
-    border: 1px solid rgba(198, 25, 39, 0.3);
-    color: #e8384a;
+    background: var(--red-dim);
+    border: 1px solid var(--red-glow);
+    color: var(--red-text);
 }
 
 .alert-banner.orange {
@@ -633,7 +634,6 @@ input, textarea, select {
     color: var(--text-sub);
     cursor: pointer;
     transition: all var(--t-fast);
-    text-decoration: none;
 }
 
 .tab.active {
@@ -699,9 +699,9 @@ input, textarea, select {
 }
 
 .alert-danger {
-    background: rgba(198, 25, 39, 0.1);
-    border: 1px solid rgba(198, 25, 39, 0.2);
-    color: #e8384a;
+    background: var(--red-dim);
+    border: 1px solid var(--red-glow);
+    color: var(--red-text);
 }
 
 .alert-info {
@@ -789,4 +789,3 @@ input, textarea, select {
         padding: 0 var(--s4);
     }
 }
-.metric-card, .tab { text-decoration: none; color: inherit; }

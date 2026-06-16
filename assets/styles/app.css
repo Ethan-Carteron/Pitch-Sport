@@ -100,7 +100,7 @@
 }
 
 .login-footer a {
-    color: var(--red);
+    color: var(--red-text);
     font-weight: 600;
 }
 
@@ -211,8 +211,6 @@ select.input option {
     cursor: pointer;
     transition: all var(--t-fast) var(--ease);
     border-left: 3px solid transparent;
-    text-decoration: none;
-    color: inherit;
     justify-content: space-between;
 }
 
@@ -224,15 +222,15 @@ select.input option {
 }
 
 .athlete-row.rouge {
-    border-left-color: #e8384a;
+    border-left-color: var(--red-text);
 }
 
 .athlete-row.orange {
-    border-left-color: #f59e0b;
+    border-left-color: var(--orange);
 }
 
 .athlete-row.vert {
-    border-left-color: #10b981;
+    border-left-color: var(--green);
 }
 
 .athlete-row-dot {
@@ -243,17 +241,17 @@ select.input option {
 }
 
 .rouge .athlete-row-dot {
-    background: #e8384a;
-    box-shadow: 0 0 8px rgba(232, 56, 74, .6);
+    background: var(--red-text);
+    box-shadow: 0 0 8px var(--red-glow);
 }
 
 .orange .athlete-row-dot {
-    background: #f59e0b;
+    background: var(--orange);
     box-shadow: 0 0 8px rgba(245, 158, 11, .5);
 }
 
 .vert .athlete-row-dot {
-    background: #10b981;
+    background: var(--green);
     box-shadow: 0 0 8px rgba(16, 185, 129, .5);
 }
 
@@ -325,7 +323,6 @@ select.input option {
     cursor: pointer;
     margin-bottom: var(--s5);
     transition: color var(--t-fast);
-    text-decoration: none;
 }
 
 .athlete-back:hover {
@@ -442,7 +439,7 @@ select.input option {
 
 .session-type.match {
     background: var(--red-dim);
-    color: var(--red);
+    color: var(--red-text);
 }
 
 .session-type.training {
@@ -694,7 +691,7 @@ select.input option {
 .wellness-questions {
     display: flex;
     flex-direction: column;
-    gap: var(--s4);
+    gap: var(--s5);
 }
 
 .wellness-question {
@@ -769,8 +766,14 @@ select.input option {
 }
 
 .wellness-confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: var(--s8) var(--s5);
+    background: var(--bg-surface);
+    padding: var(--s6);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border);
 }
 
 .wellness-confirm-icon {
@@ -783,12 +786,13 @@ select.input option {
     align-items: center;
     justify-content: center;
     color: var(--green);
-    margin: 0 auto var(--s4);
+    margin-bottom: var(--s4);
 }
 
 .wellness-confirm-text {
     font-family: var(--font-title);
-    font-size: 28px;
+    font-size: 20px;
+    font-weight: 800;
     margin-bottom: var(--s2);
 }
 
@@ -948,9 +952,9 @@ select.input option {
     font-size: 10px;
     font-weight: bold;
 }
-.bg-vert { background-color: #10b981; }
-.bg-orange { background-color: #f59e0b; }
-.bg-rouge { background-color: #ef4444; }
+.bg-vert { background-color: var(--green); }
+.bg-orange { background-color: var(--orange); }
+.bg-rouge { background-color: var(--red); }
 .css-graph-empty {
     margin: auto;
     color: #64748b;
@@ -1041,33 +1045,7 @@ select.input option {
     text-align: center;
     margin-bottom: var(--s6);
 }
-.wellness-confirm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background: var(--bg-surface);
-    padding: var(--s6);
-    border-radius: var(--r-lg);
-    border: 1px solid var(--border);
-}
-.wellness-confirm-icon {
-    color: var(--green);
-    margin-bottom: var(--s4);
-}
-.wellness-confirm-text {
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: var(--s2);
-}
-.wellness-confirm-sub {
-    color: var(--text-sub);
-}
-.wellness-questions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s5);
-}
+
 .wellness-fieldset {
     border: 1px solid var(--border);
     background: var(--bg-surface);
