@@ -1068,10 +1068,26 @@ select.input option {
     flex-direction: column;
     gap: var(--s5);
 }
-.wellness-input-label {
-    font-size: 16px;
-    margin-bottom: var(--s3);
+.wellness-fieldset {
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    border-radius: var(--r-lg);
+    padding: var(--s5);
+    margin: 0;
+    min-width: 0;
+}
+.wellness-input-legend {
     display: block;
+    float: left;
+    width: 100%;
+    font-family: var(--font-label);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    margin-bottom: var(--s3);
+    padding: 0;
 }
 .wellness-options-group {
     display: flex;

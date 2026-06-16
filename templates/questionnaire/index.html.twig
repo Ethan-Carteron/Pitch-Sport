@@ -15,7 +15,9 @@
                 <!-- Confirmation -->
                 <div id="wellness-confirm" class="wellness-confirm">
                     <div class="wellness-confirm-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
                     </div>
                     <div class="wellness-confirm-text">État de forme enregistré</div>
                     <div class="wellness-confirm-sub">Merci pour tes réponses. Bonne séance !</div>
@@ -24,51 +26,51 @@
                 <!-- Questions -->
                 <form id="wellness-form" method="POST" action="{{ path('app_questionnaire_wellness', {uid: player.uid}) }}">
                     <div class="wellness-questions" id="wellness-questions">
-                        
+
                         <!-- Question Fatigue -->
-                        <div class="card">
-                            <label class="input-label wellness-input-label">1. Évalue ta fatigue (1 = Très fatigué, 5 = En pleine forme)</label>
+                        <fieldset class="card wellness-fieldset">
+                            <legend class="input-label wellness-input-legend">1. Évalue ta fatigue (1 = Très fatigué, 5 = En pleine forme)</legend>
                             <div class="wellness-options-group">
                                 {% for i in 1..5 %}
                                     <label class="wellness-option-label">
                                         <input type="radio" name="fatigue" value="{{ i }}" required class="wellness-radio-input">
-                                        <div class="btn btn-secondary btn-full wellness-btn">
+                                        <span class="btn btn-secondary btn-full wellness-btn">
                                             {{ i }}
-                                        </div>
+                                        </span>
                                     </label>
                                 {% endfor %}
                             </div>
-                        </div>
+                        </fieldset>
 
                         <!-- Question Sommeil -->
-                        <div class="card">
-                            <label class="input-label wellness-input-label">2. Qualité du sommeil (1 = Très mauvaise, 5 = Excellente)</label>
+                        <fieldset class="card wellness-fieldset">
+                            <legend class="input-label wellness-input-legend">2. Qualité du sommeil (1 = Très mauvaise, 5 = Excellente)</legend>
                             <div class="wellness-options-group">
                                 {% for i in 1..5 %}
                                     <label class="wellness-option-label">
                                         <input type="radio" name="sleep" value="{{ i }}" required class="wellness-radio-input">
-                                        <div class="btn btn-secondary btn-full wellness-btn">
+                                        <span class="btn btn-secondary btn-full wellness-btn">
                                             {{ i }}
-                                        </div>
+                                        </span>
                                     </label>
                                 {% endfor %}
                             </div>
-                        </div>
+                        </fieldset>
 
                         <!-- Question Stress -->
-                        <div class="card">
-                            <label class="input-label wellness-input-label">3. Niveau de stress (1 = Très stressé, 5 = Très détendu)</label>
+                        <fieldset class="card wellness-fieldset">
+                            <legend class="input-label wellness-input-legend">3. Niveau de stress (1 = Très stressé, 5 = Très détendu)</legend>
                             <div class="wellness-options-group">
                                 {% for i in 1..5 %}
                                     <label class="wellness-option-label">
                                         <input type="radio" name="stress" value="{{ i }}" required class="wellness-radio-input">
-                                        <div class="btn btn-secondary btn-full wellness-btn">
+                                        <span class="btn btn-secondary btn-full wellness-btn">
                                             {{ i }}
-                                        </div>
+                                        </span>
                                     </label>
                                 {% endfor %}
                             </div>
-                        </div>
+                        </fieldset>
 
                     </div>
                     <button type="submit" class="btn btn-primary btn-full wellness-submit">

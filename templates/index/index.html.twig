@@ -12,7 +12,11 @@
 
         {% if redCount > 0 %}
             <div class="alert-banner rouge" id="alert-rouge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
                 <strong>{{ redCount }} athlète{{ redCount > 1 ? 's' : '' }} en zone de surcharge.</strong>&nbsp;Vérifiez la charge avant l'entraînement.
             </div>
         {% endif %}
@@ -21,11 +25,11 @@
         <div class="grid-4 overview-metrics">
             <a href="{{ path('home', {filter: currentFilter == 'all' ? 'all' : 'all'}) }}" class="metric-card {% if currentFilter == 'all' %}active{% endif %}" data-filter="all" id="kpi-all">
                 <div class="metric-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                        <circle cx="9" cy="7" r="4"/>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
                     Effectif actif
                 </div>
@@ -34,7 +38,7 @@
             </a>
             <a href="{{ path('home', {filter: currentFilter == 'rouge' ? 'all' : 'rouge'}) }}" class="metric-card {% if currentFilter == 'rouge' %}active{% endif %}" data-filter="rouge" id="kpi-rouge">
                 <div class="metric-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <circle cx="12" cy="12" r="10"/>
                         <line x1="12" y1="8" x2="12" y2="12"/>
                         <line x1="12" y1="16" x2="12.01" y2="16"/>
@@ -46,7 +50,7 @@
             </a>
             <a href="{{ path('home', {filter: currentFilter == 'orange' ? 'all' : 'orange'}) }}" class="metric-card {% if currentFilter == 'orange' %}active{% endif %}" data-filter="orange" id="kpi-orange">
                 <div class="metric-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <path
                             d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
                     </svg>
@@ -57,7 +61,7 @@
             </a>
             <a href="{{ path('home', {filter: currentFilter == 'vert' ? 'all' : 'vert'}) }}" class="metric-card {% if currentFilter == 'vert' %}active{% endif %}" data-filter="vert" id="kpi-vert">
                 <div class="metric-label">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <polyline points="20 6 9 17 4 12"/>
                     </svg>
                     Zone verte
@@ -100,7 +104,7 @@
                             </div>
                             <div class="athlete-row-metric-label">Score</div>
                         </div>
-                        <svg class="athlete-row-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="athlete-row-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </div>
