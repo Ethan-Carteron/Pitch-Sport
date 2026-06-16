@@ -1,0 +1,7 @@
+{
+  "name": "pitch-sport",
+  "private": true,
+  "scripts": {
+    "vercel-build": "composer install --no-dev --optimize-autoloader && php bin/console asset-map:compile"
+  }
+}
