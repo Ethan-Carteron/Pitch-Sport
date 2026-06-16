@@ -69,7 +69,7 @@ final class TeamManagerController extends AbstractController
                     "Bonjour {$player->getName()}, voici ton questionnaire de forme du jour : {$questionnaireUrl}"
                 );
                 $message->transport('telegram');
-                $message->getOptions()->recipientId($player->getTelegramChatId());
+                $message->options((new \Symfony\Component\Notifier\Bridge\Telegram\TelegramOptions())->chatId($player->getTelegramChatId()));
                 
                 try {
                     $chatter->send($message);

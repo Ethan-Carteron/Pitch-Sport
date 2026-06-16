@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Notifier\ChatterInterface;
 use Symfony\Component\Notifier\Message\ChatMessage;
+use Symfony\Component\Notifier\Bridge\Telegram\TelegramOptions;
 
 final class TelegramWebhookController extends AbstractController
 {
@@ -41,18 +42,18 @@ final class TelegramWebhookController extends AbstractController
 
                     $message = new ChatMessage("Bonjour {$player->getName()} ! Ton compte Telegram est maintenant lié à PitchSport. Tu recevras tes questionnaires ici.");
                     $message->transport('telegram');
-                    $message->getOptions()->recipientId($chatId);
+                    $message->options((new TelegramOptions())->chatId($chatId));
                     $chatter->send($message);
                 } else {
                     $message = new ChatMessage("Le code joueur est invalide ou introuvable.");
                     $message->transport('telegram');
-                    $message->getOptions()->recipientId($chatId);
+                    $message->options((new TelegramOptions())->chatId($chatId));
                     $chatter->send($message);
                 }
             } else {
                 $message = new ChatMessage("Bienvenue sur PitchSport ! Utilise le lien d'invitation fourni par ton coach pour lier ton compte.");
                 $message->transport('telegram');
-                $message->getOptions()->recipientId($chatId);
+                $message->options((new TelegramOptions())->chatId($chatId));
                 $chatter->send($message);
             }
         }
@@ -60,3 +61,4 @@ final class TelegramWebhookController extends AbstractController
         return new Response('OK');
     }
 }
+
