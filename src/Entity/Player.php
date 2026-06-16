@@ -103,11 +103,8 @@ class Player extends BaseEntity
 
     public function removeWellnessQuestion(WellnessQuestions $wellnessQuestion): static
     {
-        if ($this->wellnessQuestions->removeElement($wellnessQuestion)) {
-            // set the owning side to null (unless already changed)
-            if ($wellnessQuestion->getPlayer() === $this) {
-                $wellnessQuestion->setPlayer(null);
-            }
+        if ($this->wellnessQuestions->removeElement($wellnessQuestion) && $wellnessQuestion->getPlayer() === $this) {
+            $wellnessQuestion->setPlayer(null);
         }
 
         return $this;
@@ -133,11 +130,8 @@ class Player extends BaseEntity
 
     public function removeWorkload(Workload $workload): static
     {
-        if ($this->workloads->removeElement($workload)) {
-            // set the owning side to null (unless already changed)
-            if ($workload->getPlayer() === $this) {
-                $workload->setPlayer(null);
-            }
+        if ($this->workloads->removeElement($workload) && $workload->getPlayer() === $this) {
+            $workload->setPlayer(null);
         }
 
         return $this;

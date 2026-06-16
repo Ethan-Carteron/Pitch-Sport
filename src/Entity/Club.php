@@ -79,11 +79,8 @@ class Club extends BaseEntity
 
     public function removePlayer(Player $player): static
     {
-        if ($this->players->removeElement($player)) {
-            // set the owning side to null (unless already changed)
-            if ($player->getClub() === $this) {
-                $player->setClub(null);
-            }
+        if ($this->players->removeElement($player) && $player->getClub() === $this) {
+            $player->setClub(null);
         }
 
         return $this;
@@ -109,11 +106,8 @@ class Club extends BaseEntity
 
     public function removeUser(User $user): static
     {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getClub() === $this) {
-                $user->setClub(null);
-            }
+        if ($this->users->removeElement($user) && $user->getClub() === $this) {
+            $user->setClub(null);
         }
 
         return $this;
