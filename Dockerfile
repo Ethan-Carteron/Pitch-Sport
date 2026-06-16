@@ -17,19 +17,19 @@ VOLUME /app/var/
 
 # persistent / runtime deps
 # hadolint ignore=DL3008
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
 	file \
 	git \
-	&& rm -rf /var/lib/apt/lists/*
-
-RUN set -eux; \
-	install-php-extensions \
-	@composer \
-	apcu \
-	intl \
-	opcache \
-	zip \
-	;
+	&& rm -rf /var/lib/apt/lists/* \
+    && set -eux; \
+    install-php-extensions \
+    @composer \
+    apcu \
+    intl \
+    opcache \
+    zip \
+    ;
 
 COPY --link \
 	--from=ghcr.io/symfony-cli/symfony-cli:latest \
