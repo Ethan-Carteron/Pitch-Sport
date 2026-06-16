@@ -19,8 +19,14 @@ services:
     App\:
         resource: '../src/'
 
-    # add more service definitions when explicit configuration is needed
+    App\Session\PdoFactory: ~
+
+    pdo_session_connection:
+        class: PDO
+        factory: ['App\Session\PdoFactory', 'create']
+        arguments: ['@doctrine.dbal.default_connection']
+
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
-            - '%env(DATABASE_URL)%'
+            - '@pdo_session_connection'
             - { db_table: 'sessions', db_id_col: 'sess_id', db_data_col: 'sess_data', db_time_col: 'sess_time', db_lifetime_col: 'sess_lifetime' }
