@@ -29,7 +29,7 @@ final class StatController extends AbstractController
         $fosterHistory = $calculService->getFosterHistory($player);
 
         $currentAcwr = $calculService->calculAcwr($player);
-        $currentAcwrLevel = $calculService->getAlertLevel($currentAcwr);
+        $currentAcwrLevel = $calculService->getAcwrAlertLevel($currentAcwr);
 
         $currentVmaxDrop = $calculService->calculVmaxDrop($player);
         $currentVmaxLevel = $calculService->getVmaxDropAlertLevel($currentVmaxDrop);

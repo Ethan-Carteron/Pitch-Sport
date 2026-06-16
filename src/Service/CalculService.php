@@ -115,19 +115,12 @@ readonly class CalculService
 
     public function getFosterAlertLevel(?float $foster): ?int
     {
-        if ($foster === null) {
-            return null;
-        }
-
-        if ($foster >= 2.5) {
-            return self::ALERT_RED;
-        }
-
-        if ($foster >= 2.0) {
-            return self::ALERT_ORANGE;
-        }
-
-        return self::ALERT_GREEN;
+        return match (true) {
+            $foster === null => null,
+            $foster >= 2.5 => self::ALERT_RED,
+            $foster >= 2.0 => self::ALERT_ORANGE,
+            default => self::ALERT_GREEN,
+        };
     }
 
     private function getRecentVmax(Player $player, int $limit, ?DateTimeInterface $date = null): array
@@ -200,15 +193,11 @@ readonly class CalculService
 
         $absDrop = abs($drop);
 
-        if ($absDrop >= 15) {
-            return self::ALERT_RED;
-        }
-
-        if ($absDrop >= 5) {
-            return self::ALERT_ORANGE;
-        }
-
-        return self::ALERT_GREEN;
+        return match (true) {
+            $absDrop >= 15 => self::ALERT_RED,
+            $absDrop >= 5 => self::ALERT_ORANGE,
+            default => self::ALERT_GREEN,
+        };
     }
 
     public function getDistanceHistory(Player $player): array
@@ -253,7 +242,7 @@ readonly class CalculService
                 $history[] = [
                     'date' => $w->getCreatedDate()->format('d/m'),
                     'value' => $acwr,
-                    'level' => $this->getAlertLevel($acwr),
+                    'level' => $this->getAcwrAlertLevel($acwr),
                 ];
             }
         }
@@ -261,21 +250,14 @@ readonly class CalculService
         return $history;
     }
 
-    public function getAlertLevel(?float $acwr): ?int
+    public function getAcwrAlertLevel(?float $acwr): ?int
     {
-        if ($acwr === null) {
-            return null;
-        }
-
-        if ($acwr <= 0.7 || $acwr >= 1.5) {
-            return self::ALERT_RED;
-        }
-
-        if ($acwr < 0.8 || $acwr > 1.3) {
-            return self::ALERT_ORANGE;
-        }
-
-        return self::ALERT_GREEN;
+        return match (true) {
+            $acwr === null => null,
+            $acwr <= 0.7 || $acwr >= 1.5 => self::ALERT_RED,
+            $acwr < 0.8 || $acwr > 1.3 => self::ALERT_ORANGE,
+            default => self::ALERT_GREEN,
+        };
     }
 
     /**
@@ -309,7 +291,6 @@ readonly class CalculService
             return 0;
         }
 
-        // Normaliser sur 100 en fonction du nombre de métriques disponibles
         $score = (array_sum($subScores) / count($subScores)) * 3;
 
         return (int) min(100, max(0, round($score)));
@@ -328,15 +309,11 @@ readonly class CalculService
      */
     public function getRiskAlertLevel(int $riskScore): int
     {
-        if ($riskScore > 60) {
-            return self::ALERT_RED;
-        }
-
-        if ($riskScore > 30) {
-            return self::ALERT_ORANGE;
-        }
-
-        return self::ALERT_GREEN;
+        return match (true) {
+            $riskScore > 60 => self::ALERT_RED,
+            $riskScore > 30 => self::ALERT_ORANGE,
+            default => self::ALERT_GREEN,
+        };
     }
 
     /**
