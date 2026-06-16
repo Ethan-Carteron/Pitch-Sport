@@ -88,14 +88,14 @@
             {% endfor %}
 
             {% for item in filteredPlayers %}
-                <a href="{{ path('app_stat', {uid: item.player.uid}) }}" class="athlete-row {{ item.colorClass }}" style="text-decoration: none; color: inherit; display: flex; justify-content: space-between;">
-                    <div style="display: flex; align-items: center; gap: var(--s4);">
+                <a href="{{ path('app_stat', {uid: item.player.uid}) }}" class="athlete-row {{ item.colorClass }}">
+                    <div class="athlete-row-left">
                         <div class="athlete-row-dot"></div>
                         <div class="athlete-row-name">{{ item.player.name }}</div>
                     </div>
                     <div class="athlete-row-metrics">
                         <div class="athlete-row-metric">
-                            <div class="athlete-row-metric-val" style="color: inherit;">
+                            <div class="athlete-row-metric-val">
                                 {{ item.player.score is not null ? item.player.score ~ '/100' : '-/100' }}
                             </div>
                             <div class="athlete-row-metric-label">Score</div>

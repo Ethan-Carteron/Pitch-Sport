@@ -3,16 +3,16 @@
 namespace App\Session;
 
 use PDO;
-use Doctrine\DBAL\Connection;
+use RuntimeException;
 
 class PdoFactory
 {
     public static function create(string $databaseUrl): PDO
     {
         $url = parse_url($databaseUrl);
-        
+
         if (!$url) {
-            throw new \RuntimeException('Invalid DATABASE_URL');
+            throw new RuntimeException('Invalid DATABASE_URL');
         }
 
         $host = $url['host'] ?? '127.0.0.1';

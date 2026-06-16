@@ -211,7 +211,11 @@ select.input option {
     cursor: pointer;
     transition: all var(--t-fast) var(--ease);
     border-left: 3px solid transparent;
+    text-decoration: none;
+    color: inherit;
+    justify-content: space-between;
 }
+
 
 .athlete-row:hover {
     background: var(--bg-elevated);
@@ -287,6 +291,7 @@ select.input option {
     font-size: 16px;
     font-weight: 800;
     line-height: 1.1;
+    color: inherit;
 }
 
 .athlete-row-metric-label {
@@ -929,6 +934,7 @@ select.input option {
     width: 20px;
     border-radius: 4px 4px 0 0;
     position: relative;
+    height: var(--height, 0%);
 }
 .css-graph-label {
     font-size: 11px;
@@ -990,6 +996,7 @@ select.input option {
     width: 20px;
     position: absolute;
     z-index: 1;
+    height: var(--height, 0%);
 }
 .css-graph-variation-bar.positive {
     bottom: 50%;
@@ -1012,3 +1019,190 @@ select.input option {
 .css-graph-variation-bar .css-graph-value.bottom {
     bottom: -18px;
 }
+
+/* ============================================================
+   NEW STYLES EXTRACTED FROM TWIG TEMPLATES
+   ============================================================ */
+
+/* General helper / layout classes */
+.athlete-row-left {
+    display: flex;
+    align-items: center;
+    gap: var(--s4);
+}
+
+/* Wellness / Questionnaire page styles */
+.wellness-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--s4);
+}
+.wellness-header {
+    text-align: center;
+    margin-bottom: var(--s6);
+}
+.wellness-confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--bg-surface);
+    padding: var(--s6);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border);
+}
+.wellness-confirm-icon {
+    color: var(--green);
+    margin-bottom: var(--s4);
+}
+.wellness-confirm-text {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: var(--s2);
+}
+.wellness-confirm-sub {
+    color: var(--text-sub);
+}
+.wellness-questions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s5);
+}
+.wellness-input-label {
+    font-size: 16px;
+    margin-bottom: var(--s3);
+    display: block;
+}
+.wellness-options-group {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s2);
+}
+.wellness-option-label {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+}
+.wellness-radio-input {
+    display: none;
+}
+.wellness-btn {
+    padding: var(--s3) 0;
+}
+.wellness-submit {
+    margin-top: var(--s5);
+    height: 50px;
+    font-size: 16px;
+}
+/* Native styling for wellness radio options */
+input[type=radio].wellness-radio-input:checked + .btn {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+}
+
+/* Stat page styles */
+.stat-box {
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+}
+.stat-box-title {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.stat-box-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+.stat-box-value.status-0 {
+    color: var(--green);
+}
+.stat-box-value.status-1 {
+    color: var(--orange);
+}
+.stat-box-value.status-2 {
+    color: var(--red);
+}
+
+/* Team Manager page styles */
+.team-card {
+    margin-bottom: var(--s5);
+}
+.team-section-header {
+    margin-bottom: var(--s4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn-telegram {
+    background-color: #0088cc;
+    border-color: #0088cc;
+    color: white;
+}
+.btn-telegram:hover {
+    background-color: #0077b3;
+    border-color: #0077b3;
+}
+.team-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s4);
+}
+.athlete-row-manage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s4);
+    justify-content: space-between;
+    align-items: center;
+    cursor: default;
+}
+.athlete-info-col {
+    display: flex;
+    align-items: center;
+    gap: var(--s4);
+    flex: 1;
+    min-width: 200px;
+}
+.badge-telegram {
+    background-color: #0088cc;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+.badge-pending {
+    background-color: var(--bg-hover);
+    color: var(--text-sub);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+.athlete-actions-col {
+    display: flex;
+    align-items: center;
+    gap: var(--s4);
+    flex-wrap: wrap;
+}
+.athlete-phone-form {
+    display: flex;
+    gap: var(--s2);
+    align-items: center;
+}
+.input-phone {
+    width: 150px;
+}
+.btn-whatsapp {
+    background-color: #25D366;
+    border-color: #25D366;
+    color: white;
+}
+.btn-whatsapp:hover {
+    background-color: #20ba5a;
+    border-color: #20ba5a;
+}
+

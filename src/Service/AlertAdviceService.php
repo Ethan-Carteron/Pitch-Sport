@@ -7,7 +7,7 @@ namespace App\Service;
  *
  * Structure de retour de getAdvices() :
  * Chaque élément est un tableau associatif :
- *   - 'metric'  : string (ex: 'acwr', 'vmax', 'foster')
+ *   - 'metric'  : string (ex : 'acwr', 'vmax', 'foster')
  *   - 'level'   : int    (0 = vert, 1 = orange, 2 = rouge)
  *   - 'message' : string (phrase de conseil)
  */
