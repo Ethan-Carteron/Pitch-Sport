@@ -58,7 +58,7 @@
 }
 
 .login-title {
-    font-family: var(--font-title);
+    font-family: var(--font-title), sans-serif;
     font-size: 36px;
     letter-spacing: .01em;
     margin-bottom: var(--s2);
@@ -129,7 +129,7 @@
 }
 
 .register-terms-label {
-    font-family: var(--font-body);
+    font-family: var(--font-body), sans-serif;
     font-size: 13px;
     font-weight: 500;
     color: var(--text-sub);
@@ -165,7 +165,7 @@ select.input option {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: var(--text-sub);
@@ -211,9 +211,7 @@ select.input option {
     cursor: pointer;
     transition: all var(--t-fast) var(--ease);
     border-left: 3px solid transparent;
-    justify-content: space-between;
 }
-
 
 .athlete-row:hover {
     background: var(--bg-elevated);
@@ -257,7 +255,7 @@ select.input option {
 
 .athlete-row-name {
     flex: 1;
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 14px;
     font-weight: 800;
     letter-spacing: .04em;
@@ -265,7 +263,7 @@ select.input option {
 }
 
 .athlete-row-pos {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 11px;
     font-weight: 600;
     color: var(--text-sub);
@@ -285,7 +283,7 @@ select.input option {
 }
 
 .athlete-row-metric-val {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 16px;
     font-weight: 800;
     line-height: 1.1;
@@ -295,7 +293,7 @@ select.input option {
 .athlete-row-metric-label {
     font-size: 10px;
     color: var(--text-sub);
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     letter-spacing: .04em;
     text-transform: uppercase;
 }
@@ -316,7 +314,7 @@ select.input option {
     display: inline-flex;
     align-items: center;
     gap: var(--s2);
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 13px;
     font-weight: 600;
     color: var(--text-sub);
@@ -351,7 +349,7 @@ select.input option {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-title);
+    font-family: var(--font-title), sans-serif;
     font-size: 24px;
     color: var(--text-sub);
     flex-shrink: 0;
@@ -362,7 +360,7 @@ select.input option {
 }
 
 .athlete-profile-name {
-    font-family: var(--font-title);
+    font-family: var(--font-title), sans-serif;
     font-size: 36px;
     letter-spacing: .02em;
     line-height: 1;
@@ -377,7 +375,7 @@ select.input option {
 }
 
 .athlete-profile-pos {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 12px;
     font-weight: 700;
     color: var(--text-sub);
@@ -391,13 +389,13 @@ select.input option {
 }
 
 .athlete-acwr-val {
-    font-family: var(--font-title);
+    font-family: var(--font-title), sans-serif;
     font-size: 56px;
     line-height: 1;
 }
 
 .athlete-acwr-label {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .08em;
@@ -420,7 +418,7 @@ select.input option {
 }
 
 .session-date {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 12px;
     font-weight: 600;
     color: var(--text-sub);
@@ -429,7 +427,7 @@ select.input option {
 }
 
 .session-type {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 11px;
     font-weight: 700;
     padding: 2px 8px;
@@ -459,7 +457,7 @@ select.input option {
 }
 
 .session-metric-val {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 14px;
     font-weight: 700;
 }
@@ -467,7 +465,7 @@ select.input option {
 .session-metric-key {
     font-size: 10px;
     color: var(--text-sub);
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     text-transform: uppercase;
     letter-spacing: .04em;
 }
@@ -531,7 +529,7 @@ select.input option {
 }
 
 .import-text {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 18px;
     font-weight: 800;
     text-transform: uppercase;
@@ -549,7 +547,7 @@ select.input option {
     margin-top: var(--s3);
     font-size: 12px;
     color: var(--text-dim);
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     letter-spacing: .04em;
 }
 
@@ -572,7 +570,7 @@ select.input option {
 }
 
 .import-file-name {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 15px;
     font-weight: 700;
 }
@@ -595,7 +593,7 @@ select.input option {
 }
 
 .mapping-from {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 12px;
     font-weight: 700;
     color: var(--text-sub);
@@ -611,7 +609,7 @@ select.input option {
 }
 
 .mapping-to {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 12px;
     font-weight: 700;
     color: var(--text);
@@ -638,7 +636,7 @@ select.input option {
 
 .import-history-name {
     flex: 1;
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 13px;
     font-weight: 700;
 }
@@ -702,7 +700,7 @@ select.input option {
 }
 
 .wellness-question-label {
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 15px;
     font-weight: 800;
     text-transform: uppercase;
@@ -737,7 +735,7 @@ select.input option {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-title);
+    font-family: var(--font-title), sans-serif;
     font-size: 20px;
     cursor: pointer;
     transition: all var(--t-fast);
@@ -762,7 +760,7 @@ select.input option {
     margin-top: var(--s2);
     font-size: 11px;
     color: var(--text-dim);
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
 }
 
 .wellness-confirm {
@@ -790,7 +788,7 @@ select.input option {
 }
 
 .wellness-confirm-text {
-    font-family: var(--font-title);
+    font-family: var(--font-title), sans-serif;
     font-size: 20px;
     font-weight: 800;
     margin-bottom: var(--s2);
@@ -827,7 +825,7 @@ select.input option {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 12px;
     font-weight: 700;
     color: var(--text-sub);
@@ -836,7 +834,7 @@ select.input option {
 
 .staff-name {
     flex: 1;
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 13px;
     font-weight: 700;
 }
@@ -847,7 +845,7 @@ select.input option {
     background: var(--bg-hover);
     padding: 2px 8px;
     border-radius: var(--r-full);
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-weight: 600;
 }
 
@@ -1024,18 +1022,13 @@ select.input option {
     bottom: -18px;
 }
 
-/* ============================================================
-   NEW STYLES EXTRACTED FROM TWIG TEMPLATES
-   ============================================================ */
 
-/* General helper / layout classes */
 .athlete-row-left {
     display: flex;
     align-items: center;
     gap: var(--s4);
 }
 
-/* Wellness / Questionnaire page styles */
 .wellness-wrapper {
     max-width: 600px;
     margin: 0 auto;
@@ -1058,7 +1051,7 @@ select.input option {
     display: block;
     float: left;
     width: 100%;
-    font-family: var(--font-label);
+    font-family: var(--font-label), sans-serif;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: .06em;
@@ -1088,6 +1081,7 @@ select.input option {
     height: 50px;
     font-size: 16px;
 }
+
 /* Native styling for wellness radio options */
 input[type=radio].wellness-radio-input:checked + .btn {
     background: var(--red);
