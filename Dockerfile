@@ -61,7 +61,6 @@ CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile" ]
 # Dev FrankenPHP image
 FROM frankenphp_base AS frankenphp_dev
 
-ENV APP_ENV=dev
 ENV XDEBUG_MODE=off
 ENV FRANKENPHP_WORKER_CONFIG=watch
 
@@ -86,16 +85,27 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY --link frankenphp/conf.d/20-app.prod.ini $PHP_INI_DIR/app.conf.d/
 
 # prevent the reinstallation of vendors at every changes in the source code
-COPY --link composer.json composer.lock symfony.lock ./
+COPY --link --chown=www-data:www-data composer.json composer.lock symfony.lock ./
 RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 # copy sources
-COPY --link --exclude=frankenphp/ . ./
+COPY --link --chown=www-data:www-data assets/ assets/
+COPY --link --chown=www-data:www-data bin/ bin/
+COPY --link --chown=www-data:www-data config/ config/
+COPY --link --chown=www-data:www-data migrations/ migrations/
+COPY --link --chown=www-data:www-data public/ public/
+COPY --link --chown=www-data:www-data src/ src/
+COPY --link --chown=www-data:www-data templates/ templates/
+COPY --link --chown=www-data:www-data .env ./
+COPY --link --chown=www-data:www-data importmap.php ./
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
 	composer dump-env prod; \
 	composer run-script --no-dev post-install-cmd; \
-	chmod +x bin/console; sync;
+	chmod +x bin/console; sync; \
+	chown -R www-data:www-data var/
+
+USER www-data
