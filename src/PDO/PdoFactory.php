@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Session;
+namespace App\PDO;
 
+use InvalidArgumentException;
 use PDO;
-use RuntimeException;
 
 class PdoFactory
 {
@@ -12,7 +12,7 @@ class PdoFactory
         $url = parse_url($databaseUrl);
 
         if (!$url) {
-            throw new RuntimeException('Invalid DATABASE_URL');
+            throw new InvalidArgumentException('Invalid DATABASE_URL');
         }
 
         $host = $url['host'] ?? '127.0.0.1';
