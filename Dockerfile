@@ -85,20 +85,30 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY --link frankenphp/conf.d/20-app.prod.ini $PHP_INI_DIR/app.conf.d/
 
 # prevent the reinstallation of vendors at every changes in the source code
-COPY --link --chown=www-data:www-data composer.json composer.lock symfony.lock ./
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 composer.json composer.lock symfony.lock ./
 RUN set -eux; \
 	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 # copy sources
-COPY --link --chown=www-data:www-data assets/ assets/
-COPY --link --chown=www-data:www-data bin/ bin/
-COPY --link --chown=www-data:www-data config/ config/
-COPY --link --chown=www-data:www-data migrations/ migrations/
-COPY --link --chown=www-data:www-data public/ public/
-COPY --link --chown=www-data:www-data src/ src/
-COPY --link --chown=www-data:www-data templates/ templates/
-COPY --link --chown=www-data:www-data .env ./
-COPY --link --chown=www-data:www-data importmap.php ./
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 assets/ assets/
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 bin/ bin/
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 config/ config/
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 migrations/ migrations/
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 public/ public/
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 src/ src/
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 templates/ templates/
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 .env ./
+# Make sure no write permissions are assigned to the copied resource.
+COPY --link --chown=root:root --chmod=755 importmap.php ./
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
