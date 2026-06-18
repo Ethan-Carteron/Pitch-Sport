@@ -88,7 +88,7 @@ COPY --link frankenphp/conf.d/20-app.prod.ini $PHP_INI_DIR/app.conf.d/
 # Make sure no write permissions are assigned to the copied resource.
 COPY --link --chown=root:root --chmod=755 composer.json composer.lock symfony.lock ./
 RUN set -eux; \
-	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+	composer install --no-cache --prefer-dist --no-autoloader --no-scripts --no-progress
 
 # copy sources
 # Make sure no write permissions are assigned to the copied resource.
@@ -112,9 +112,9 @@ COPY --link --chown=root:root --chmod=755 importmap.php ./
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
-	composer dump-autoload --classmap-authoritative --no-dev; \
+	composer dump-autoload --classmap-authoritative; \
 	composer dump-env prod; \
-	composer run-script --no-dev post-install-cmd; \
+	composer run-script post-install-cmd; \
 	chmod +x bin/console; sync; \
 	chown -R www-data:www-data var/
 
