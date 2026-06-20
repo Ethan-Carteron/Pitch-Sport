@@ -109,6 +109,19 @@ Pour déployer :
 5.  **Analyse et Statistiques** : Traitement des données physiologiques pour générer des alertes de fatigue et optimiser la performance (`CalculService`, `AlertAdviceService`).
 6.  **Notifications** : Intégration Telegram pour alerter les coachs en temps réel si une charge de travail ou un état de fatigue atteint un seuil critique.
 
+## 🛣️ Roadmap (Feuille de route)
+
+### V0 - Priorités à court terme
+1. **[Priorité Absolue] Bot Telegram** : Les questionnaires sont faits et fonctionnent, mais leur envoi automatisé doit être terminé. Cette priorité est absolue et passe avant toutes les autres pour clôturer la V0.
+2. **Correction des Assets sur Vercel** : Actuellement, aucune solution n'a encore été trouvée pour faire fonctionner les assets dans la version déployée sur Vercel. C'est la priorité majeure pour l'évolution du logiciel.
+3. **Tests supplémentaires** : Continuer à écrire plus de tests pour finaliser la V0.
+
+### Vision à moyen terme
+*   **Automatisation de la collecte des données** : L'objectif est de pouvoir prendre automatiquement les données depuis l'outil afin de faire gagner du temps au staff.
+
+### Vision à long terme (Versions suivantes)
+*   **Intégration d'outils d'analyse vidéo** : Nous voulons intégrer des fonctionnalités d'analyse vidéo permettant d'analyser les angles des mouvements effectués par les athlètes, leur vitesse, etc., afin de cibler les risques. Cette technologie serait très utile pour les petits clubs, car une simple caméra est très abordable par rapport à des outils GPS poussés, et elle peut apporter énormément d'informations.
+
 ## 📄 Licence
 
 Projet sous architecture de base Symfony. Se référer au fichier `LICENSE` pour plus de détails.
